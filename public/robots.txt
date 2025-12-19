@@ -7,7 +7,7 @@ Disallow: /admin
 Disallow: /admin/*
 
 # Sitemap location
-Sitemap: https://aayup.vercel.app/sitemap.xml
+Sitemap: https://www.aayuptechnologies.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

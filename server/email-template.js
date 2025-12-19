@@ -41,7 +41,7 @@ const createEmailTemplate = (contentHtml, opts = {}) => {
                       <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                         <tr>
                           <td style="padding-right:12px;vertical-align:middle;">
-                            <img src="https://aayup.vercel.app/logo.webp" alt="${brandName}" width="45" height="45" style="display:block;border-radius:50%;border:0;" />
+                            <img src="https://www.aayuptechnologies.com/logo.webp" alt="${brandName}" width="45" height="45" style="display:block;border-radius:50%;border:0;" />
                           </td>
                           <td style="vertical-align:middle;">
                             <div style="line-height:1;">
@@ -70,7 +70,7 @@ const createEmailTemplate = (contentHtml, opts = {}) => {
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                   <tr>
                     <td align="center" style="padding:5px 0;">
-                      <a href="https://aayup.vercel.app" style="display:inline-block;background:linear-gradient(135deg, rgba(0, 255, 225, 0.24) 0%, rgba(30, 0, 255, 0.34) 100%);border:1px solid #e50082;border-radius:50px;padding:12px 28px;text-decoration:none;font-weight:600;font-size:15px;color:${mainText};transition:all 0.3s ease;">
+                      <a href="https://www.aayuptechnologies.com/" style="display:inline-block;background:linear-gradient(135deg, rgba(0, 255, 225, 0.24) 0%, rgba(30, 0, 255, 0.34) 100%);border:1px solid #e50082;border-radius:50px;padding:12px 28px;text-decoration:none;font-weight:600;font-size:15px;color:${mainText};transition:all 0.3s ease;">
                         Visit Website →
                       </a>
                     </td>

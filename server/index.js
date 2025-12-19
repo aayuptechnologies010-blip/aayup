@@ -136,7 +136,7 @@ app.post('/api/send-contact-email', async (req, res) => {
 
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'Saurabhtbj143@gmail.com',
+      to: 'Aayup.technologies.010@gmail.com',
       subject: `🔔 New Contact - ${name}`,
       html: createEmailTemplate(adminContent),
     };
@@ -219,13 +219,13 @@ app.post('/api/send-enquiry-email', async (req, res) => {
 
         <p style="margin:0 0 16px 0;color:#6b7280;font-size:14px;">Our team will review your requirements and provide detailed information soon.</p>
 
-        <a href="https://aayuptech.com" style="display:inline-block;padding:10px 16px;border-radius:6px;background:#4f46e5;color:#fff;text-decoration:none;font-weight:600;">Visit our website</a>
+        <a href="https://www.aayuptechnologies.com/" style="display:inline-block;padding:10px 16px;border-radius:6px;background:#4f46e5;color:#fff;text-decoration:none;font-weight:600;">Visit our website</a>
       </div>
     `;
 
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'Saurabhtbj143@gmail.com',
+      to: 'Aayup.technologies.010@gmail.com',
       subject: `🔔 New Enquiry - ${service_type} - ${name}`,
       html: createEmailTemplate(adminContent),
     };
@@ -332,7 +332,7 @@ app.post('/api/send-student-application-email', async (req, res) => {
 
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'Saurabhtbj143@gmail.com',
+      to: 'Aayup.technologies.010@gmail.com',
       subject: `🎓 New Student Enquiry - ${program_type} - ${full_name}`,
       html: createEmailTemplate(adminContent),
     };
@@ -488,7 +488,7 @@ app.post('/api/send-job-application-email', upload.single('resume'), async (req,
 
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'Saurabhtbj143@gmail.com',
+      to: 'Aayup.technologies.010@gmail.com',
       subject: `💼 New Application - ${job_title} - ${full_name}`,
       html: createEmailTemplate(adminContent),
       attachments: resumeFile ? [{
@@ -593,7 +593,7 @@ app.post('/api/send-testimonial-email', upload.single('avatar'), async (req, res
 
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'Saurabhtbj143@gmail.com',
+      to: 'Aayup.technologies.010@gmail.com',
       subject: `⭐ New Feedback - ${rating} Stars - ${name}`,
       html: createEmailTemplate(adminContent),
       attachments: avatarFile ? [{
