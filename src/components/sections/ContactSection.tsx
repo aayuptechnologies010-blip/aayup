@@ -201,7 +201,7 @@ const ContactSection = () => {
                   <div>
                     <h4 className="font-bold mb-1">Location</h4>
                     <p className="text-foreground/70 text-sm">
-                      Bangalore, Karnataka, India
+                      Mumbai, Maharastra, India
                     </p>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ const ContactSection = () => {
                       <Input
                         id="contact-phone"
                         type="tel"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 7030839883"
                         value={contactFormData.phone}
                         onChange={(e) => setContactFormData({ ...contactFormData, phone: e.target.value })}
                         disabled={isSubmitting}
@@ -409,7 +409,7 @@ const ContactSection = () => {
                       <Input
                         id="query-phone"
                         type="tel"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 7030839883"
                         value={queryFormData.phone}
                         onChange={(e) => setQueryFormData({ ...queryFormData, phone: e.target.value })}
                         disabled={isSubmitting}
