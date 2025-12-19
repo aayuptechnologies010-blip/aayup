@@ -5,7 +5,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6.2-3178C6.svg?logo=typescript)
 ![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E.svg?logo=supabase)
 
-Modern, responsive website for Aayup Technologies - A leading software development company specializing in web development, mobile apps, UI/UX design, and cloud solutions.
+Modern, responsive website for Aayup Technologies - A leading software development company specializing in web development, mobile apps, UI/UX design, and cloud solutions!
 
 ## 🌟 Features
 
