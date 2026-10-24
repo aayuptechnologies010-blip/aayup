@@ -1,0 +1,44 @@
+/* Performance Optimizations */
+
+/* Optimize animations with GPU acceleration */
+.testimonial-scroll-container {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+.testimonial-scroll {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize sections for better rendering */
+section {
+  content-visibility: auto;
+}
+
+/* Optimize glass effects */
+.glass-card,
+.glass-nav {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Reduce paint complexity for animated elements */
+.animate-float,
+.animate-glow {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Optimize image rendering */
+img {
+  content-visibility: auto;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Lazy load offscreen content */
+.lazy-load {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}

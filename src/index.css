@@ -1,0 +1,271 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Background: White #FFFFFF */
+    --background: 0 0% 100%;
+    /* Dark Headings & Text: Dark Blue #0D4F85 / Navy #173B57 */
+    --foreground: 207 43% 22%;
+
+    /* Cards & Sections: Light Gray #F3F7FA */
+    --card: 206 43% 97%;
+    --card-foreground: 207 43% 22%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 43% 22%;
+
+    /* Primary Brand: Blue #1769AA */
+    --primary: 206 76% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary / Highlights / Buttons: Light Blue #2D86C9 */
+    --secondary: 206 63% 48%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Light Gray #F3F7FA */
+    --muted: 206 43% 97%;
+    --muted-foreground: 207 25% 42%;
+
+    /* Accent: Light Blue soft tint */
+    --accent: 206 63% 94%;
+    --accent-foreground: 207 82% 29%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 206 30% 90%;
+    --input: 206 30% 90%;
+    --ring: 206 76% 38%;
+
+    --radius: 0.75rem;
+
+    /* Navbar: Dark Blue #0D4F85 */
+    --nav-bg: 207 82% 29%;
+    --nav-foreground: 0 0% 100%;
+
+    --sidebar-background: 206 43% 97%;
+    --sidebar-foreground: 207 43% 22%;
+    --sidebar-primary: 206 76% 38%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 206 63% 94%;
+    --sidebar-accent-foreground: 207 82% 29%;
+    --sidebar-border: 206 30% 90%;
+    --sidebar-ring: 206 76% 38%;
+
+    /* Glass effect */
+    --glass-bg: 0 0% 100% / 0.85;
+    --glass-border: 206 76% 38% / 0.15;
+    
+    /* Gradients: Dark Blue #0D4F85 -> Primary #1769AA -> Light Blue #2D86C9 */
+    --gradient-primary: linear-gradient(135deg, hsl(207 82% 29%), hsl(206 76% 38%), hsl(206 63% 48%));
+    --gradient-glow: linear-gradient(135deg, hsl(206 76% 38% / 0.2), hsl(206 63% 48% / 0.2));
+    --gradient-dark: linear-gradient(180deg, hsl(207 58% 22%), hsl(207 82% 29%));
+    
+    /* Effects */
+    --shadow-glow: 0 0 35px hsl(206 76% 38% / 0.25);
+    --shadow-card: 0 10px 30px hsl(207 43% 22% / 0.08);
+  }
+
+  .dark {
+    /* Dark Background: Navy #173B57 */
+    --background: 207 58% 22%;
+    --foreground: 0 0% 100%;
+
+    /* Cards: Dark Blue #0D4F85 with elevation */
+    --card: 207 82% 26%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 207 82% 26%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Primary: Light Blue #2D86C9 (stands out on Navy) */
+    --primary: 206 63% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Brand Blue #1769AA */
+    --secondary: 206 76% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 207 58% 18%;
+    --muted-foreground: 206 30% 75%;
+
+    --accent: 206 63% 48% / 0.2;
+    --accent-foreground: 206 63% 80%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 207 50% 32%;
+    --input: 207 50% 32%;
+    --ring: 206 63% 52%;
+    
+    --nav-bg: 207 82% 20%;
+    --nav-foreground: 0 0% 100%;
+
+    --sidebar-background: 207 58% 20%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 206 63% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 58% 26%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 207 50% 32%;
+    --sidebar-ring: 206 63% 52%;
+
+    --glass-bg: 207 58% 22% / 0.85;
+    --glass-border: 206 63% 52% / 0.25;
+    --shadow-glow: 0 0 35px hsl(206 63% 52% / 0.35);
+    --shadow-card: 0 10px 40px hsl(207 82% 12% / 0.5);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Add containment for better performance */
+  section {
+    contain: layout style paint;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/70 backdrop-blur-xl border border-border/50 rounded-2xl shadow-[var(--shadow-card)];
+    contain: layout style paint;
+  }
+
+  .glass-nav {
+    @apply bg-background/80 backdrop-blur-md border-b border-border/50;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+    will-change: box-shadow;
+  }
+
+  /* Infinite Scrolling Testimonials - Optimized */
+  .testimonial-scroll-container {
+    @apply relative overflow-hidden;
+    contain: layout style paint;
+  }
+
+  .testimonial-scroll {
+    @apply flex gap-0;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  .testimonial-scroll-ltr {
+    animation-name: scroll-left;
+    animation-duration: 40s;
+  }
+
+  .testimonial-scroll-rtl {
+    animation-name: scroll-right;
+    animation-duration: 40s;
+  }
+
+  /* Pause animation on hover */
+  .testimonial-scroll-container:hover .testimonial-scroll {
+    animation-play-state: paused;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    to {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+    }
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(-33.333%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}
+
+section {
+  min-height: 60vh;
+  scroll-margin-top: 80px;
+}
+
+/* Additional Services specific spacing to prevent heading overlap */
+.pricing-additional h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.45;
+}
+.pricing-additional ul {
+  margin-top: 0.75rem;
+}
+.pricing-additional li {
+  margin-bottom: 0.5rem;
+}
+.pricing-additional {
+  overflow: visible;
+}
