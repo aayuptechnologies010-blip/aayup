@@ -12,42 +12,34 @@ const INITIAL_TEAM = [
   {
     name: "Vivek Chaurasiya",
     role: "Founder & CEO",
-    badge: "Executive",
-    bio: "Leads the vision and strategy to build innovative digital solutions.",
+    bio: "Leads the vision and strategy to build innovative digital solutions that create real value.",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=2400&auto=format&fit=crop&q=95",
     linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    website: "https://aayuptechnologies.com",
+    facebook: "https://facebook.com",
   },
   {
     name: "Priya Sharma",
     role: "Project Manager",
-    badge: "Management",
-    bio: "Ensures smooth execution and timely delivery of all projects.",
+    bio: "Ensures smooth execution and timely delivery of all projects with a focus on client success.",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=2400&auto=format&fit=crop&q=95",
     linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    website: "https://aayuptechnologies.com",
+    facebook: "https://facebook.com",
   },
   {
     name: "Rahul Verma",
     role: "Lead Developer",
-    badge: "Engineering",
-    bio: "Designs and develops scalable web and mobile solutions.",
+    bio: "Designs and develops scalable web and mobile solutions that power business growth.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=2400&auto=format&fit=crop&q=95",
     linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    website: "https://aayuptechnologies.com",
+    facebook: "https://facebook.com",
   },
   {
     name: "Neha Singh",
     role: "UI/UX Designer",
-    badge: "Creative",
-    bio: "Creates beautiful and user-friendly designs for better experiences.",
+    bio: "Creates beautiful and user-friendly designs that enhance brand experiences and drive engagement.",
     avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=2400&auto=format&fit=crop&q=95",
     linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    website: "https://aayuptechnologies.com",
+    facebook: "https://facebook.com",
   },
 ];
 
@@ -130,21 +122,42 @@ export default function TeamIntroSection() {
       <div className="container mx-auto px-4 sm:px-6">
         
         {/* Section Header Matching Mockup */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-3 mb-3">
-            <span className="w-10 h-[1.5px] bg-[#1769AA]" />
-            <span className="text-xs sm:text-sm uppercase tracking-widest font-extrabold text-[#1769AA]">
-              OUR TEAM
-            </span>
-            <span className="w-10 h-[1.5px] bg-[#1769AA]" />
+        {/* Background Decorative Accents (Corner Blue Waves & Grid Dots) */}
+        <div className="relative">
+          {/* Top-Left Dots Grid */}
+          <div className="absolute -top-10 left-4 sm:left-12 grid grid-cols-4 gap-2 opacity-35 dark:opacity-20 pointer-events-none">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <span key={i} className="w-1.5 h-1.5 rounded-full bg-[#1769AA]" />
+            ))}
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1220] dark:text-white tracking-tight">
-            Meet Our <span className="text-[#0256B2] dark:text-[#3B82F6]">Expert Team</span>
-          </h2>
-          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 max-w-xl leading-relaxed">
-            A passionate team of professionals working together to deliver innovative solutions and create real value for our clients.
-          </p>
+          {/* Top-Right Dots Grid */}
+          <div className="absolute -top-4 right-4 sm:right-12 grid grid-cols-4 gap-2 opacity-35 dark:opacity-20 pointer-events-none">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <span key={i} className="w-1.5 h-1.5 rounded-full bg-[#1769AA]" />
+            ))}
+          </div>
+
+          {/* Floating Blue Circle on Top Right */}
+          <div className="absolute top-2 right-1/4 w-5 h-5 rounded-full bg-[#0066FF] shadow-md pointer-events-none hidden md:block" />
+
+          {/* Section Header Matching Mockup */}
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14 relative z-10">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <span className="w-12 h-[1.5px] bg-[#0066FF]" />
+              <span className="text-xs sm:text-sm uppercase tracking-widest font-extrabold text-[#0066FF]">
+                OUR TEAM
+              </span>
+              <span className="w-12 h-[1.5px] bg-[#0066FF]" />
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1220] dark:text-white tracking-tight">
+              Meet Our <span className="text-[#0066FF] dark:text-[#3B82F6]">Amazing Team</span>
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 max-w-xl leading-relaxed">
+              A group of passionate professionals working together to deliver innovative solutions and create real value for our clients.
+            </p>
+          </div>
         </div>
 
         {/* Team Members Display with side arrows and exact card styling */}
@@ -159,7 +172,7 @@ export default function TeamIntroSection() {
               type="button"
               onClick={handlePrev}
               aria-label="Previous Team Members"
-              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0256B2] dark:text-[#3B82F6] shadow-xl border border-slate-100 dark:border-white/10 flex items-center justify-center hover:bg-[#0256B2] hover:text-white transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0066FF] dark:text-[#3B82F6] shadow-xl border border-slate-100 dark:border-white/10 flex items-center justify-center hover:bg-[#0066FF] hover:text-white transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
             </button>
@@ -169,7 +182,7 @@ export default function TeamIntroSection() {
               type="button"
               onClick={handleNext}
               aria-label="Next Team Members"
-              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#0256B2] text-white shadow-xl flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#0066FF] text-white shadow-xl flex items-center justify-center hover:bg-[#0052CC] transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             >
               <ChevronRight className="w-5 h-5 stroke-[2.5]" />
             </button>
@@ -177,7 +190,7 @@ export default function TeamIntroSection() {
             {/* Scrollable Cards Container */}
             <div
               ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-hidden no-scrollbar py-4 px-2 select-none cursor-grab active:cursor-grabbing"
+              className="flex gap-6 overflow-x-hidden no-scrollbar py-6 px-2 select-none cursor-grab active:cursor-grabbing"
               style={{ scrollBehavior: "auto" }}
             >
               {displayMembers.map((member, index) => {
@@ -192,15 +205,32 @@ export default function TeamIntroSection() {
                   }
                 }
 
+                // Featured/Active Card effect (like Priya Sharma card in mockup)
+                const isFeatured = index === 1;
+
                 return (
                   <div
                     key={`${member.name}-${index}`}
-                    className="w-[285px] sm:w-[310px] flex-shrink-0 bg-white dark:bg-[#0E1626] rounded-3xl overflow-hidden shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] border border-slate-100 dark:border-white/5 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-5px_rgba(2,86,178,0.18)] flex flex-col"
+                    className={`w-[285px] sm:w-[310px] flex-shrink-0 rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 flex flex-col ${
+                      isFeatured
+                        ? "bg-[#0066FF] text-white shadow-[0_20px_45px_-10px_rgba(0,102,255,0.45)] ring-2 ring-[#0066FF]"
+                        : "bg-white dark:bg-[#0E1626] text-[#0B1220] dark:text-white shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] border border-slate-100 dark:border-white/5 hover:shadow-[0_20px_40px_-5px_rgba(0,102,255,0.2)]"
+                    }`}
                   >
-                    {/* Top Image Stage with Blue Circular Badge Background & Curved Wave */}
-                    <div className="relative w-full h-72 bg-gradient-to-br from-[#EAF2FB] to-[#DCEAF8] dark:from-[#131F33] dark:to-[#0D1524] overflow-hidden flex items-end justify-center">
-                      {/* Signature Blue Circular Accent Behind Person (as in reference) */}
-                      <div className="absolute top-2 -right-10 w-44 h-44 rounded-full bg-[#0256B2] dark:bg-[#1E40AF] pointer-events-none opacity-90" />
+                    {/* Top Image Stage with Signature Blue Circular Accent Behind Person */}
+                    <div
+                      className={`relative w-full h-72 overflow-hidden flex items-end justify-center ${
+                        isFeatured
+                          ? "bg-gradient-to-br from-[#1E88E5] to-[#0066FF]"
+                          : "bg-gradient-to-br from-[#EAF2FB] to-[#DCEAF8] dark:from-[#131F33] dark:to-[#0D1524]"
+                      }`}
+                    >
+                      {/* Signature Circular Blue Shape Behind Person */}
+                      <div
+                        className={`absolute top-2 -right-10 w-44 h-44 rounded-full pointer-events-none opacity-90 ${
+                          isFeatured ? "bg-[#0047BA]" : "bg-[#0066FF] dark:bg-[#1E40AF]"
+                        }`}
+                      />
 
                       {/* Person Portrait (4K Ultra-HD Studio Quality) */}
                       {hdAvatar ? (
@@ -212,7 +242,7 @@ export default function TeamIntroSection() {
                           style={{ imageRendering: "auto" }}
                         />
                       ) : (
-                        <div className="relative z-10 w-full h-full flex items-center justify-center text-4xl font-black text-[#0256B2]">
+                        <div className="relative z-10 w-full h-full flex items-center justify-center text-4xl font-black text-[#0066FF]">
                           {member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
                         </div>
                       )}
@@ -222,7 +252,9 @@ export default function TeamIntroSection() {
                         <svg
                           viewBox="0 0 500 80"
                           preserveAspectRatio="none"
-                          className="w-full h-9 fill-white dark:fill-[#0E1626] translate-y-[2px]"
+                          className={`w-full h-9 translate-y-[2px] ${
+                            isFeatured ? "fill-[#0066FF]" : "fill-white dark:fill-[#0E1626]"
+                          }`}
                         >
                           <path d="M0,35 C150,85 320,-10 500,45 L500,80 L0,80 Z" />
                         </svg>
@@ -230,54 +262,69 @@ export default function TeamIntroSection() {
                     </div>
 
                     {/* Content Section Matching Mockup */}
-                    <div className="px-6 pt-2 pb-6 flex-1 flex flex-col justify-between bg-white dark:bg-[#0E1626]">
+                    <div
+                      className={`px-6 pt-2 pb-6 flex-1 flex flex-col justify-between ${
+                        isFeatured ? "bg-[#0066FF] text-white" : "bg-white dark:bg-[#0E1626]"
+                      }`}
+                    >
                       <div>
                         {/* Member Name */}
-                        <h3 className="text-xl font-extrabold text-[#0B1220] dark:text-white tracking-tight">
+                        <h3 className="text-xl font-extrabold tracking-tight">
                           {member.name}
                         </h3>
 
-                        {/* Member Role (Vibrant Blue) */}
-                        <p className="text-sm font-bold text-[#0256B2] dark:text-[#3B82F6] mt-1">
+                        {/* Member Role */}
+                        <p
+                          className={`text-sm font-bold mt-1 ${
+                            isFeatured ? "text-white/90" : "text-[#0066FF] dark:text-[#3B82F6]"
+                          }`}
+                        >
                           {member.role}
                         </p>
 
                         {/* Bio Description */}
                         {member.bio && (
-                          <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed line-clamp-2">
+                          <p
+                            className={`text-xs sm:text-[13px] mt-2.5 leading-relaxed line-clamp-3 ${
+                              isFeatured ? "text-white/85" : "text-slate-500 dark:text-slate-400"
+                            }`}
+                          >
                             {member.bio}
                           </p>
                         )}
                       </div>
 
-                      {/* Social Media Circular Buttons Exactly Like Reference (LinkedIn, Twitter/Insta, Web/Facebook) */}
+                      {/* Social Media Circular Buttons Exactly Like Reference (LinkedIn & Facebook) */}
                       <div className="flex items-center gap-2.5 pt-5 mt-4">
                         <a
                           href={member.linkedin || "https://linkedin.com"}
                           target="_blank"
                           rel="noreferrer"
-                          className="w-8 h-8 rounded-full bg-[#0256B2] text-white flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 shadow-sm"
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
+                            isFeatured
+                              ? "bg-white text-[#0066FF] hover:bg-slate-100"
+                              : "bg-[#0066FF] text-white hover:bg-[#0052CC]"
+                          }`}
                           title="LinkedIn"
                         >
-                          <Linkedin className="w-4 h-4 fill-white stroke-none" />
+                          <Linkedin
+                            className={`w-4 h-4 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
+                          />
                         </a>
                         <a
-                          href={member.twitter || member.instagram || "https://twitter.com"}
+                          href={member.facebook || "https://facebook.com"}
                           target="_blank"
                           rel="noreferrer"
-                          className="w-8 h-8 rounded-full bg-[#00A6FF] text-white flex items-center justify-center hover:bg-[#0090DE] transition-all transform hover:scale-110 shadow-sm"
-                          title="Twitter"
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
+                            isFeatured
+                              ? "bg-white text-[#0066FF] hover:bg-slate-100"
+                              : "bg-[#0066FF] text-white hover:bg-[#0052CC]"
+                          }`}
+                          title="Facebook"
                         >
-                          <Twitter className="w-4 h-4 fill-white stroke-none" />
-                        </a>
-                        <a
-                          href={member.website || member.facebook || "https://aayuptechnologies.com"}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="w-8 h-8 rounded-full bg-[#0256B2] text-white flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 shadow-sm"
-                          title="Website"
-                        >
-                          <Globe className="w-4 h-4" />
+                          <Facebook
+                            className={`w-4 h-4 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
+                          />
                         </a>
                       </div>
                     </div>
@@ -288,7 +335,7 @@ export default function TeamIntroSection() {
 
             {/* Pagination Dots at Bottom (As in Mockup) */}
             <div className="flex items-center justify-center gap-2 mt-8">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0256B2]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0066FF]" />
               <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-white/20" />
               <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-white/20" />
               <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-white/10" />
