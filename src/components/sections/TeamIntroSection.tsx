@@ -151,79 +151,97 @@ export default function TeamIntroSection() {
               {displayMembers.map((member, index) => (
                 <div
                   key={`${member.name}-${index}`}
-                  className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
+                  className="w-[300px] sm:w-[330px] flex-shrink-0 bg-white dark:bg-[#10192A] border border-slate-200/90 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#1769AA]/50 transition-all transform hover:-translate-y-2 duration-300 flex flex-col"
                 >
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden ring-2 ring-[#1769AA]/20">
-                      {member.avatar ? (
-                        <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                      ) : (
-                        member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")
-                      )}
+                  {/* Full Picture Container with Gradient Overlay */}
+                  <div className="relative w-full h-56 sm:h-64 bg-slate-100 dark:bg-slate-800 overflow-hidden group/img">
+                    {member.avatar ? (
+                      <img
+                        src={member.avatar}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/img:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-tr from-[#0D4F85] via-[#1769AA] to-[#2D86C9] flex items-center justify-center text-white text-4xl font-extrabold tracking-wider">
+                        {member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
+                      </div>
+                    )}
+
+                    {/* Gradient Overlay for contrast */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+
+                    {/* Department / Badge on top-right */}
+                    <div className="absolute top-3 right-3 z-10">
+                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/90 dark:bg-black/60 text-[#0D4F85] dark:text-[#60A5FA] shadow-md backdrop-blur-md border border-white/20">
+                        {member.badge || member.department || "Core Team"}
+                      </span>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#1769AA]/10 text-[#1769AA] dark:text-[#2D86C9]">
-                      {member.badge || member.department || "Core Team"}
-                    </span>
+
+                    {/* Quick Social Buttons pinned at bottom-right of image */}
+                    {(member.linkedin || member.instagram || member.facebook) && (
+                      <div className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 backdrop-blur-md bg-black/40 p-1 rounded-xl border border-white/20">
+                        {member.linkedin && (
+                          <a
+                            href={member.linkedin}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded-lg text-white hover:text-blue-400 hover:bg-white/20 transition-colors"
+                            title="LinkedIn"
+                          >
+                            <Linkedin className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        {member.instagram && (
+                          <a
+                            href={member.instagram}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded-lg text-white hover:text-pink-400 hover:bg-white/20 transition-colors"
+                            title="Instagram"
+                          >
+                            <Instagram className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        {member.facebook && (
+                          <a
+                            href={member.facebook}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded-lg text-white hover:text-indigo-400 hover:bg-white/20 transition-colors"
+                            title="Facebook"
+                          >
+                            <Facebook className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  <h3 className="text-xl font-bold text-[#0B1220] dark:text-white">
-                    {member.name}
-                  </h3>
-                  <p className="text-sm font-medium text-[#1769AA] dark:text-[#2D86C9] mt-1">
-                    {member.role}
-                  </p>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed line-clamp-3">
-                    {member.bio}
-                  </p>
-
-                  {/* Social Links on card */}
-                  {(member.linkedin || member.instagram || member.facebook) && (
-                    <div className="flex items-center gap-2.5 mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10">
-                      {member.linkedin && (
-                        <a
-                          href={member.linkedin}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-1.5 rounded-lg bg-blue-50 dark:bg-white/10 text-blue-700 dark:text-blue-400 hover:bg-blue-100 transition-colors"
-                          title="LinkedIn"
-                        >
-                          <Linkedin className="w-3.5 h-3.5" />
-                        </a>
-                      )}
-                      {member.instagram && (
-                        <a
-                          href={member.instagram}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-1.5 rounded-lg bg-pink-50 dark:bg-white/10 text-pink-700 dark:text-pink-400 hover:bg-pink-100 transition-colors"
-                          title="Instagram"
-                        >
-                          <Instagram className="w-3.5 h-3.5" />
-                        </a>
-                      )}
-                      {member.facebook && (
-                        <a
-                          href={member.facebook}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-1.5 rounded-lg bg-indigo-50 dark:bg-white/10 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 transition-colors"
-                          title="Facebook"
-                        >
-                          <Facebook className="w-3.5 h-3.5" />
-                        </a>
+                  {/* Content Container - Compact and balanced without gaps */}
+                  <div className="p-5 flex-1 flex flex-col justify-between bg-white dark:bg-[#10192A]">
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold text-[#0B1220] dark:text-white leading-snug">
+                        {member.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm font-semibold text-[#1769AA] dark:text-[#60A5FA] mt-0.5">
+                        {member.role}
+                      </p>
+                      {member.bio && (
+                        <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed line-clamp-3">
+                          {member.bio}
+                        </p>
                       )}
                     </div>
-                  )}
-                </div>
 
-                <div className="pt-4 mt-5 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  <Code className="w-3.5 h-3.5 text-[#1769AA]" />
-                  <span>Verified AAYUP Technologies Team</span>
+                    {/* Verified team footer tag */}
+                    <div className="pt-3.5 mt-4 border-t border-slate-100 dark:border-white/10 flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                      <Code className="w-3.5 h-3.5 text-[#1769AA]" />
+                      <span>Verified AAYUP Technologies Team</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
           {/* Prev / Next Slider Controls Below (Reveals on Hover) */}
           <div className="flex items-center justify-center gap-4 mt-4 transition-all duration-300 opacity-0 group-hover/teamslider:opacity-100 translate-y-1 group-hover/teamslider:translate-y-0">
