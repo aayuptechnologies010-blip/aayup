@@ -120,19 +120,11 @@ const Navigation = () => {
     { name: "About Us", href: "/about" },
     { name: "Our Team", href: "/about#team" },
     { name: "Careers", href: "/careers" },
-    // { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/contact" },
   ];
 
-  const adminNavItems = [
-    { name: "Dashboard", href: "/admin" },
-    { name: "Jobs", href: "/admin/jobs" },
-    { name: "Applications", href: "/admin/applications" },
-    { name: "Enquiry", href: "/admin/enquiry" },
-    { name: "Testimonals ", href: "/admin/testimonals" },
-    { name: "Contact", href: "/admin/contact" },
-  ];
-
-  const navItems = currentUser ? adminNavItems : publicNavItems;
+  // Website always renders client-facing public navigation
+  const navItems = publicNavItems;
 
   const isLinkActive = (href: string) => {
     if (href === "/") {
