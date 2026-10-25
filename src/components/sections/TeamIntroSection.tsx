@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook, ChevronLeft, ChevronRight, ShieldCheck, Award } from "lucide-react";
+import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook, ChevronLeft, ChevronRight, Globe, Twitter } from "lucide-react";
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 
@@ -10,25 +10,44 @@ import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const INITIAL_TEAM = [
   {
-    name: "Aayush Pandey",
-    role: "Lead Software Architect & Engineering Lead",
-    badge: "Leadership",
-    bio: "Guides full-stack engineering, cloud architecture, and technical innovation across enterprise client engagements.",
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&auto=format&fit=crop&q=85",
+    name: "Vivek Chaurasiya",
+    role: "Founder & CEO",
+    badge: "Executive",
+    bio: "Leads the vision and strategy to build innovative digital solutions.",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=2400&auto=format&fit=crop&q=95",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    website: "https://aayuptechnologies.com",
   },
   {
-    name: "Sarthak Verma",
-    role: "Senior Full-Stack & Mobile Developer",
+    name: "Priya Sharma",
+    role: "Project Manager",
+    badge: "Management",
+    bio: "Ensures smooth execution and timely delivery of all projects.",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=2400&auto=format&fit=crop&q=95",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    website: "https://aayuptechnologies.com",
+  },
+  {
+    name: "Rahul Verma",
+    role: "Lead Developer",
     badge: "Engineering",
-    bio: "Specializes in modern React/Next.js platforms, cross-platform mobile architecture, and resilient API systems.",
-    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1200&auto=format&fit=crop&q=85",
+    bio: "Designs and develops scalable web and mobile solutions.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=2400&auto=format&fit=crop&q=95",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    website: "https://aayuptechnologies.com",
   },
   {
-    name: "Product & Engineering Collective",
-    role: "Cross-Functional Software Developers & Designers",
-    badge: "Technical Specialists",
-    bio: "Dedicated team of UI/UX designers, backend developers, and quality engineers building high-performance digital products.",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&auto=format&fit=crop&q=85",
+    name: "Neha Singh",
+    role: "UI/UX Designer",
+    badge: "Creative",
+    bio: "Creates beautiful and user-friendly designs for better experiences.",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=2400&auto=format&fit=crop&q=95",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    website: "https://aayuptechnologies.com",
   },
 ];
 
@@ -110,163 +129,156 @@ export default function TeamIntroSection() {
     <section id="team" className="scroll-mt-24 py-12 md:py-16 bg-white dark:bg-[#0B1220] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl">
-            <span className="text-xs sm:text-sm uppercase tracking-wider font-bold text-[#1769AA] dark:text-[#2D86C9]">
-              The People Behind The Code
+        {/* Section Header Matching Mockup */}
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-3 mb-3">
+            <span className="w-10 h-[1.5px] bg-[#1769AA]" />
+            <span className="text-xs sm:text-sm uppercase tracking-widest font-extrabold text-[#1769AA]">
+              OUR TEAM
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0B1220] dark:text-white mt-2 leading-tight">
-              Company & Team Introduction
-            </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg mt-3">
-              AAYUP Technologies is driven by skilled engineers and designers passionate about building high-quality, transparent, and scalable digital systems.
-            </p>
+            <span className="w-10 h-[1.5px] bg-[#1769AA]" />
           </div>
-          <div>
-            <Link to="/careers">
-              <Button
-                variant="outline"
-                className="rounded-xl border-2 border-[#1769AA] text-[#1769AA] hover:bg-[#1769AA] hover:text-white font-semibold transition-all group"
-              >
-                Join Our Team
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1220] dark:text-white tracking-tight">
+            Meet Our <span className="text-[#0256B2] dark:text-[#3B82F6]">Expert Team</span>
+          </h2>
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 max-w-xl leading-relaxed">
+            A passionate team of professionals working together to deliver innovative solutions and create real value for our clients.
+          </p>
         </div>
 
-        {/* Team Members Display (or clean notice when panel has 0 members) */}
+        {/* Team Members Display with side arrows and exact card styling */}
         {displayMembers.length > 0 ? (
           <div
             className="group/teamslider relative mb-16"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
+            {/* Left Floating Arrow */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous Team Members"
+              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0256B2] dark:text-[#3B82F6] shadow-xl border border-slate-100 dark:border-white/10 flex items-center justify-center hover:bg-[#0256B2] hover:text-white transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+            </button>
+
+            {/* Right Floating Arrow (Solid Blue like mockup) */}
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next Team Members"
+              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#0256B2] text-white shadow-xl flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+            </button>
+
+            {/* Scrollable Cards Container */}
             <div
               ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-hidden no-scrollbar py-4 select-none cursor-grab active:cursor-grabbing"
+              className="flex gap-6 overflow-x-hidden no-scrollbar py-4 px-2 select-none cursor-grab active:cursor-grabbing"
               style={{ scrollBehavior: "auto" }}
             >
               {displayMembers.map((member, index) => {
-                // Ensure image URL requests high-resolution if it's an unsplash photo
                 let hdAvatar = member.avatar;
                 if (hdAvatar && hdAvatar.includes("unsplash.com")) {
-                  if (!hdAvatar.includes("q=")) {
-                    hdAvatar = hdAvatar.replace("w=400", "w=1000&q=85");
+                  // Enhance to 4K studio quality resolution
+                  hdAvatar = hdAvatar
+                    .replace(/w=\d+/, "w=2000")
+                    .replace(/q=\d+/, "q=95");
+                  if (!hdAvatar.includes("w=")) {
+                    hdAvatar += (hdAvatar.includes("?") ? "&" : "?") + "w=2000&q=95&auto=format";
                   }
                 }
 
                 return (
                   <div
                     key={`${member.name}-${index}`}
-                    className="group/card w-[310px] sm:w-[340px] flex-shrink-0 bg-white dark:bg-[#0D1524] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-[0_4px_20px_-4px_rgba(13,79,133,0.08)] dark:shadow-[0_4px_25px_-4px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-8px_rgba(23,105,170,0.22)] dark:hover:shadow-[0_20px_40px_-8px_rgba(45,134,201,0.2)] hover:border-[#1769AA]/60 transition-all duration-500 transform hover:-translate-y-2.5 flex flex-col relative"
+                    className="w-[285px] sm:w-[310px] flex-shrink-0 bg-white dark:bg-[#0E1626] rounded-3xl overflow-hidden shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] border border-slate-100 dark:border-white/5 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-5px_rgba(2,86,178,0.18)] flex flex-col"
                   >
-                    {/* Top Accent Gradient Bar */}
-                    <div className="h-1 w-full bg-gradient-to-r from-[#0D4F85] via-[#1769AA] to-[#2D86C9] group-hover/card:h-1.5 transition-all duration-300" />
+                    {/* Top Image Stage with Blue Circular Badge Background & Curved Wave */}
+                    <div className="relative w-full h-72 bg-gradient-to-br from-[#EAF2FB] to-[#DCEAF8] dark:from-[#131F33] dark:to-[#0D1524] overflow-hidden flex items-end justify-center">
+                      {/* Signature Blue Circular Accent Behind Person (as in reference) */}
+                      <div className="absolute top-2 -right-10 w-44 h-44 rounded-full bg-[#0256B2] dark:bg-[#1E40AF] pointer-events-none opacity-90" />
 
-                    {/* Executive Portrait Container */}
-                    <div className="relative w-full h-64 sm:h-72 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-[#131F33] dark:to-[#0B1220] overflow-hidden">
+                      {/* Person Portrait (4K Ultra-HD Studio Quality) */}
                       {hdAvatar ? (
                         <img
                           src={hdAvatar}
                           alt={member.name}
                           loading="lazy"
-                          className="w-full h-full object-cover object-top filter contrast-[1.03] brightness-[1.01] transition-transform duration-700 ease-out group-hover/card:scale-105"
+                          className="relative z-10 w-full h-full object-cover object-top filter contrast-[1.04] saturate-[1.05] brightness-[1.02]"
+                          style={{ imageRendering: "auto" }}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-tr from-[#0D4F85] via-[#1769AA] to-[#2D86C9] flex flex-col items-center justify-center text-white p-6 text-center">
-                          <span className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-extrabold ring-4 ring-white/30 mb-2">
-                            {member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
-                          </span>
-                          <span className="text-xs uppercase tracking-wider font-semibold opacity-90">AAYUP Executive</span>
+                        <div className="relative z-10 w-full h-full flex items-center justify-center text-4xl font-black text-[#0256B2]">
+                          {member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
                         </div>
                       )}
 
-                      {/* Smooth cinematic dark vignette at bottom */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D1524]/90 via-[#0D1524]/25 to-transparent pointer-events-none" />
-
-                      {/* Floating Role/Department Pill */}
-                      <div className="absolute top-3.5 left-3.5 z-10">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 dark:bg-[#0D1524]/85 text-[#0D4F85] dark:text-[#60A5FA] text-[11px] font-bold tracking-wide shadow-lg backdrop-blur-md border border-slate-200/60 dark:border-white/10">
-                          <Award className="w-3.5 h-3.5 text-[#1769AA]" />
-                          <span>{member.badge || member.department || "Core Team"}</span>
-                        </div>
-                      </div>
-
-                      {/* Floating Social Quick Actions */}
-                      {(member.linkedin || member.instagram || member.facebook) && (
-                        <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1.5 backdrop-blur-md bg-black/45 dark:bg-black/60 p-1 rounded-xl border border-white/25 shadow-lg">
-                          {member.linkedin && (
-                            <a
-                              href={member.linkedin}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="p-1.5 rounded-lg text-white hover:text-blue-400 hover:bg-white/20 transition-all active:scale-90"
-                              title="LinkedIn Profile"
-                            >
-                              <Linkedin className="w-3.5 h-3.5" />
-                            </a>
-                          )}
-                          {member.instagram && (
-                            <a
-                              href={member.instagram}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="p-1.5 rounded-lg text-white hover:text-pink-400 hover:bg-white/20 transition-all active:scale-90"
-                              title="Instagram Profile"
-                            >
-                              <Instagram className="w-3.5 h-3.5" />
-                            </a>
-                          )}
-                          {member.facebook && (
-                            <a
-                              href={member.facebook}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="p-1.5 rounded-lg text-white hover:text-indigo-400 hover:bg-white/20 transition-all active:scale-90"
-                              title="Facebook Profile"
-                            >
-                              <Facebook className="w-3.5 h-3.5" />
-                            </a>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Floating Bottom Name & Verified Pill right on image baseline */}
-                      <div className="absolute bottom-3 left-4 right-4 z-10">
-                        <div className="flex items-center justify-between">
-                          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#1769AA]/80 backdrop-blur-md text-white text-[10px] font-semibold tracking-wider uppercase">
-                            <ShieldCheck className="w-3 h-3 text-emerald-300" />
-                            <span>Verified Member</span>
-                          </div>
-                        </div>
+                      {/* Smooth Organic Wave Divider on Bottom of Image */}
+                      <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none leading-none">
+                        <svg
+                          viewBox="0 0 500 80"
+                          preserveAspectRatio="none"
+                          className="w-full h-9 fill-white dark:fill-[#0E1626] translate-y-[2px]"
+                        >
+                          <path d="M0,35 C150,85 320,-10 500,45 L500,80 L0,80 Z" />
+                        </svg>
                       </div>
                     </div>
 
-                    {/* Content Section - Compact, zero gap, executive hierarchy */}
-                    <div className="p-5 flex-1 flex flex-col justify-between bg-white dark:bg-[#0D1524]">
+                    {/* Content Section Matching Mockup */}
+                    <div className="px-6 pt-2 pb-6 flex-1 flex flex-col justify-between bg-white dark:bg-[#0E1626]">
                       <div>
-                        <h3 className="text-lg font-extrabold text-[#0B1220] dark:text-white leading-tight group-hover/card:text-[#1769AA] dark:group-hover/card:text-[#60A5FA] transition-colors">
+                        {/* Member Name */}
+                        <h3 className="text-xl font-extrabold text-[#0B1220] dark:text-white tracking-tight">
                           {member.name}
                         </h3>
-                        <p className="text-xs font-semibold text-[#1769AA] dark:text-[#60A5FA] mt-1 tracking-tight">
+
+                        {/* Member Role (Vibrant Blue) */}
+                        <p className="text-sm font-bold text-[#0256B2] dark:text-[#3B82F6] mt-1">
                           {member.role}
                         </p>
+
+                        {/* Bio Description */}
                         {member.bio && (
-                          <p className="text-[12.5px] text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed line-clamp-3">
+                          <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed line-clamp-2">
                             {member.bio}
                           </p>
                         )}
                       </div>
 
-                      {/* Clean bottom badge */}
-                      <div className="pt-3 mt-3.5 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-400 font-medium">
-                        <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
-                          <Code className="w-3.5 h-3.5 text-[#1769AA]" />
-                          <span>AAYUP Technologies</span>
-                        </span>
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Active Member" />
+                      {/* Social Media Circular Buttons Exactly Like Reference (LinkedIn, Twitter/Insta, Web/Facebook) */}
+                      <div className="flex items-center gap-2.5 pt-5 mt-4">
+                        <a
+                          href={member.linkedin || "https://linkedin.com"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-8 h-8 rounded-full bg-[#0256B2] text-white flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 shadow-sm"
+                          title="LinkedIn"
+                        >
+                          <Linkedin className="w-4 h-4 fill-white stroke-none" />
+                        </a>
+                        <a
+                          href={member.twitter || member.instagram || "https://twitter.com"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-8 h-8 rounded-full bg-[#00A6FF] text-white flex items-center justify-center hover:bg-[#0090DE] transition-all transform hover:scale-110 shadow-sm"
+                          title="Twitter"
+                        >
+                          <Twitter className="w-4 h-4 fill-white stroke-none" />
+                        </a>
+                        <a
+                          href={member.website || member.facebook || "https://aayuptechnologies.com"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-8 h-8 rounded-full bg-[#0256B2] text-white flex items-center justify-center hover:bg-[#0D4F85] transition-all transform hover:scale-110 shadow-sm"
+                          title="Website"
+                        >
+                          <Globe className="w-4 h-4" />
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -274,34 +286,15 @@ export default function TeamIntroSection() {
               })}
             </div>
 
-          {/* Prev / Next Slider Controls Below (Reveals on Hover) */}
-          <div className="flex items-center justify-center gap-4 mt-4 transition-all duration-300 opacity-0 group-hover/teamslider:opacity-100 translate-y-1 group-hover/teamslider:translate-y-0">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous Team Members"
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0D4F85] dark:text-[#2D86C9] border-2 border-slate-200 dark:border-white/10 shadow-lg hover:bg-[#1769AA] hover:text-white hover:border-[#1769AA] dark:hover:bg-[#1769AA] dark:hover:text-white transition-all transform active:scale-95 cursor-pointer"
-              title="Previous"
-            >
-              <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
-            </button>
-
-            <div className="h-1.5 w-16 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-[#1769AA] to-[#2D86C9] rounded-full animate-pulse" />
+            {/* Pagination Dots at Bottom (As in Mockup) */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0256B2]" />
+              <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-white/20" />
+              <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-white/20" />
+              <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-white/10" />
             </div>
-
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next Team Members"
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0D4F85] dark:text-[#2D86C9] border-2 border-slate-200 dark:border-white/10 shadow-lg hover:bg-[#1769AA] hover:text-white hover:border-[#1769AA] dark:hover:bg-[#1769AA] dark:hover:text-white transition-all transform active:scale-95 cursor-pointer"
-              title="Next"
-            >
-              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-            </button>
           </div>
-        </div>
-      ) : isLoaded ? (
+        ) : isLoaded ? (
           <div className="py-12 mb-16 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl bg-slate-50/50 dark:bg-white/5">
             <Users className="w-10 h-10 mx-auto text-slate-400 mb-2" />
             <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
