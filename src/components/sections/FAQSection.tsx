@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
@@ -71,13 +71,52 @@ const FAQS: FAQItem[] = [
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [faqsList, setFaqsList] = useState<FAQItem[]>(FAQS);
+
+  useEffect(() => {
+    const loadFaqs = () => {
+      try {
+        const stored = localStorage.getItem("aayup_dynamic_faqs");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const mapped = parsed
+              .filter((f: any) => f.active !== false)
+              .map((f: any) => {
+                let icon = Clock;
+                if (f.category === "Code & Ownership") icon = Code;
+                else if (f.category === "Pricing & Payment") icon = CreditCard;
+                else if (f.category === "Support & Tech") icon = Wrench;
+                return {
+                  category: f.category,
+                  icon,
+                  question: f.question,
+                  answer: f.answer,
+                };
+              });
+            if (mapped.length > 0) setFaqsList(mapped);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadFaqs();
+    window.addEventListener("faqs_updated", loadFaqs);
+    window.addEventListener("storage", loadFaqs);
+    return () => {
+      window.removeEventListener("faqs_updated", loadFaqs);
+      window.removeEventListener("storage", loadFaqs);
+    };
+  }, []);
 
   const categories = ["All", "Timeline & Delivery", "Pricing & Payment", "Code & Ownership", "Support & Tech"];
 
   const filteredFaqs =
     selectedCategory === "All"
-      ? FAQS
-      : FAQS.filter((f) => f.category === selectedCategory);
+      ? faqsList
+      : faqsList.filter((f) => f.category === selectedCategory);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

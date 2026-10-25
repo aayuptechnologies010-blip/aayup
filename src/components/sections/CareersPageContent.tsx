@@ -52,7 +52,13 @@ export default function CareersPageContent() {
           .order("created_at", { ascending: false });
 
         if (!error && data) {
-          setJobs(data);
+          // Only show active jobs that have remaining open seats!
+          const availableJobs = data.filter((j: any) => {
+            const total = j.total_openings ?? 1;
+            const filled = j.openings_filled ?? 0;
+            return total - filled > 0;
+          });
+          setJobs(availableJobs);
         }
       } catch (err) {
         console.error("Error fetching jobs from Supabase:", err);
@@ -403,6 +409,11 @@ export default function CareersPageContent() {
                               {job.salary_range}
                             </span>
                           )}
+                          <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+                            {Math.max(0, (job.total_openings ?? 1) - (job.openings_filled ?? 0))}{" "}
+                            {Math.max(0, (job.total_openings ?? 1) - (job.openings_filled ?? 0)) === 1 ? "Opening" : "Openings"} Left
+                          </span>
                         </div>
 
                         {/* Title */}

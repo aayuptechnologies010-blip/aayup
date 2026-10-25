@@ -1,31 +1,60 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Code, Sparkles } from "lucide-react";
+import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook } from "lucide-react";
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 
+import { useState, useEffect } from "react";
+
+const INITIAL_TEAM = [
+  {
+    name: "Aayush Pandey",
+    role: "Lead Software Architect & Engineering Lead",
+    badge: "Core Team",
+    bio: "Guides full-stack engineering, cloud architecture, and technical innovation across client software engagements.",
+  },
+  {
+    name: "Sarthak Verma",
+    role: "Senior Full-Stack & Mobile Developer",
+    badge: "Engineering",
+    bio: "Specializes in modern React/Next.js platforms, cross-platform mobile architecture, and resilient API systems.",
+  },
+  {
+    name: "Product & Engineering Collective",
+    role: "Cross-Functional Software Developers & Designers",
+    badge: "Technical Specialists",
+    bio: "Dedicated team of UI/UX designers, backend developers, and quality engineers building high-performance digital products.",
+  },
+];
+
 export default function TeamIntroSection() {
-  const teamMembers = [
-    {
-      name: "Aayush Pandey",
-      role: "Lead Software Architect & Engineering Lead",
-      badge: "Core Team",
-      bio: "Guides full-stack engineering, cloud architecture, and technical innovation across client software engagements.",
-    },
-    {
-      name: "Sarthak Verma",
-      role: "Senior Full-Stack & Mobile Developer",
-      badge: "Engineering",
-      bio: "Specializes in modern React/Next.js platforms, cross-platform mobile architecture, and resilient API systems.",
-    },
-    {
-      name: "Product & Engineering Collective",
-      role: "Cross-Functional Software Developers & Designers",
-      badge: "Technical Specialists",
-      bio: "Dedicated team of UI/UX designers, backend developers, and quality engineers building high-performance digital products.",
-    },
-  ];
+  const [teamMembers, setTeamMembers] = useState<any[]>(INITIAL_TEAM);
+
+  useEffect(() => {
+    const loadTeam = () => {
+      try {
+        const stored = localStorage.getItem("aayup_dynamic_team_members");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const active = parsed.filter((m: any) => m.active !== false);
+            if (active.length > 0) setTeamMembers(active);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadTeam();
+    window.addEventListener("team_members_updated", loadTeam);
+    window.addEventListener("storage", loadTeam);
+    return () => {
+      window.removeEventListener("team_members_updated", loadTeam);
+      window.removeEventListener("storage", loadTeam);
+    };
+  }, []);
 
   return (
     <section id="team" className="scroll-mt-24 py-12 md:py-16 bg-white dark:bg-[#0B1220]">
@@ -70,8 +99,12 @@ export default function TeamIntroSection() {
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md">
-                    {member.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden">
+                    {member.avatar ? (
+                      <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                    ) : (
+                      member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")
+                    )}
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#1769AA]/10 text-[#1769AA] dark:text-[#2D86C9]">
                     {member.badge}
@@ -87,9 +120,48 @@ export default function TeamIntroSection() {
                 <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed">
                   {member.bio}
                 </p>
+
+                {/* Social Links on card */}
+                {(member.linkedin || member.instagram || member.facebook) && (
+                  <div className="flex items-center gap-2.5 mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10">
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-1.5 rounded-lg bg-blue-50 dark:bg-white/10 text-blue-700 dark:text-blue-400 hover:bg-blue-100 transition-colors"
+                        title="LinkedIn"
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {member.instagram && (
+                      <a
+                        href={member.instagram}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-1.5 rounded-lg bg-pink-50 dark:bg-white/10 text-pink-700 dark:text-pink-400 hover:bg-pink-100 transition-colors"
+                        title="Instagram"
+                      >
+                        <Instagram className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {member.facebook && (
+                      <a
+                        href={member.facebook}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-1.5 rounded-lg bg-indigo-50 dark:bg-white/10 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 transition-colors"
+                        title="Facebook"
+                      >
+                        <Facebook className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
-              <div className="pt-6 mt-6 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
+              <div className="pt-4 mt-5 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 <Code className="w-3.5 h-3.5 text-[#1769AA]" />
                 <span>Verified AAYUP Technologies Team</span>
               </div>

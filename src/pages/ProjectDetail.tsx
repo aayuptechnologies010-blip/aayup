@@ -40,7 +40,23 @@ export default function ProjectDetail() {
     }
   }, [routeQueryId]);
 
-  const project: ProjectItem | undefined = PORTFOLIO_PROJECTS.find(
+  const [allProjects, setAllProjects] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("aayup_dynamic_portfolio_projects");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAllProjects(parsed);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  const project: ProjectItem | undefined = allProjects.find(
     (p) => p.id === (projectId || routeQueryId)
   );
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink,
@@ -24,11 +24,36 @@ const CATEGORIES = [
 
 export default function ProjectsPortfolioView() {
   const [activeCategory, setActiveCategory] = useState<string>("All Projects");
+  const [projectsList, setProjectsList] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
+
+  useEffect(() => {
+    const loadDynamicProjects = () => {
+      try {
+        const stored = localStorage.getItem("aayup_dynamic_portfolio_projects");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setProjectsList(parsed);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to read dynamic projects", e);
+      }
+    };
+
+    loadDynamicProjects();
+    window.addEventListener("portfolio_projects_updated", loadDynamicProjects);
+    window.addEventListener("storage", loadDynamicProjects);
+    return () => {
+      window.removeEventListener("portfolio_projects_updated", loadDynamicProjects);
+      window.removeEventListener("storage", loadDynamicProjects);
+    };
+  }, []);
 
   const filteredProjects =
     activeCategory === "All Projects"
-      ? PORTFOLIO_PROJECTS
-      : PORTFOLIO_PROJECTS.filter(
+      ? projectsList
+      : projectsList.filter(
           (p) => p.category === activeCategory
         );
 

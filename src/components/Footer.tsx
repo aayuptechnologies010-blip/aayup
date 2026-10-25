@@ -164,7 +164,7 @@ const Footer = () => {
 
         {/* Bottom Legal Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-          <p>
+          <p suppressHydrationWarning>
             © {new Date().getFullYear()} AAYUP Technologies Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex items-center space-x-6">

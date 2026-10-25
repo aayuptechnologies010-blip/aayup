@@ -8,36 +8,99 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-bridge";
 import { FloatingLogo } from "@/components/ui/floating-logo";
 
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+const INITIAL_BLOGS = [
+  {
+    id: "ai-web-dev",
+    title: "The Future of AI in Web Development",
+    excerpt: "How AI tools are reshaping developer workflows, testing, and personalized user experiences in modern web apps.",
+    author: "Aayush Pandey",
+    date: "2026-06-01",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+    category: "AI & Technology",
+  },
+  {
+    id: "mobile-best-practices",
+    title: "Best Practices for Mobile App Development",
+    excerpt: "Practical strategies for building resilient, fast, and user-centered mobile apps — performance, offline support, and monitoring.",
+    author: "Sarthak Verma",
+    date: "2026-06-05",
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&auto=format&fit=crop",
+    category: "Mobile Development",
+  },
+  {
+    id: "communication-skills-tech",
+    title: "Communication Skills for Tech Professionals",
+    excerpt: "Actionable tips for engineers to improve collaboration, documentation, and presentation skills in cross-functional teams.",
+    author: "Akanksha Pandey",
+    date: "2026-06-10",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop",
+    category: "Career Development",
+  },
+];
+
 const Blog = () => {
-  const blogPosts = [
-    {
-      id: "ai-web-dev",
-      title: "The Future of AI in Web Development",
-      excerpt: "How AI tools are reshaping developer workflows, testing, and personalized user experiences in modern web apps.",
-      author: "Aayush Pandey",
-      date: "2026-06-01",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-      category: "AI & Technology",
-    },
-    {
-      id: "mobile-best-practices",
-      title: "Best Practices for Mobile App Development",
-      excerpt: "Practical strategies for building resilient, fast, and user-centered mobile apps — performance, offline support, and monitoring.",
-      author: "Sarthak Verma",
-      date: "2026-06-05",
-      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&auto=format&fit=crop",
-      category: "Mobile Development",
-    },
-    {
-      id: "communication-skills-tech",
-      title: "Communication Skills for Tech Professionals",
-      excerpt: "Actionable tips for engineers to improve collaboration, documentation, and presentation skills in cross-functional teams.",
-      author: "Akanksha Pandey",
-      date: "2026-06-10",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop",
-      category: "Career Development",
-    },
-  ];
+  const [blogPosts, setBlogPosts] = useState<any[]>(INITIAL_BLOGS);
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        // 1. Try Supabase
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", { ascending: false });
+
+        if (data && data.length > 0 && !error) {
+          setBlogPosts(
+            data.map((b) => ({
+              id: b.id,
+              title: b.title,
+              excerpt: b.excerpt,
+              author: b.author,
+              date: b.created_at || new Date().toISOString(),
+              image: b.image_url || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+              category: b.category,
+            }))
+          );
+          return;
+        }
+      } catch (e) {
+        // Fallback
+      }
+
+      // 2. Check local storage
+      try {
+        const stored = localStorage.getItem("aayup_dynamic_blog_posts");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          const published = parsed.filter((p: any) => p.published !== false);
+          if (published.length > 0) {
+            setBlogPosts(
+              published.map((b: any) => ({
+                id: b.id,
+                title: b.title,
+                excerpt: b.excerpt,
+                author: b.author,
+                date: b.created_at || new Date().toISOString(),
+                image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+                category: b.category,
+              }))
+            );
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadBlogs();
+    window.addEventListener("blog_posts_updated", loadBlogs);
+    return () => window.removeEventListener("blog_posts_updated", loadBlogs);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/30">

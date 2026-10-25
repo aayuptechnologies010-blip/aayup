@@ -1,11 +1,11 @@
-"use client";
-
+import { useState, useEffect } from "react";
 import { useParams, Link } from "@/lib/router-bridge";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { FloatingLogo } from "@/components/ui/floating-logo";
+import { supabase } from "@/integrations/supabase/client";
 
-const blogPosts = [
+const INITIAL_POSTS = [
 	{
 		id: "ai-web-dev",
 		title: "The Future of AI in Web Development",
@@ -81,7 +81,65 @@ Case study: a cross-functional team reduced release rollbacks by 30% after intro
 
 const BlogDetail = () => {
 	const { id } = useParams<{ id: string }>();
-	const post = blogPosts.find((b) => b.id === id);
+	const [allPosts, setAllPosts] = useState<any[]>(INITIAL_POSTS);
+
+	useEffect(() => {
+		const loadDetail = async () => {
+			try {
+				const { data } = await supabase.from("blog_posts").select("*");
+				if (data && data.length > 0) {
+					setAllPosts(
+						data.map((b) => ({
+							id: b.id,
+							title: b.title,
+							summary: b.excerpt,
+							content: b.content,
+							readingTime: "5 min read",
+							author: b.author,
+							date: b.created_at || new Date().toISOString(),
+							image: b.image_url || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+							category: b.category,
+							tags: [b.category],
+							keyPoints: [b.excerpt],
+						}))
+					);
+					return;
+				}
+			} catch (e) {
+				// Fallback
+			}
+
+			try {
+				const stored = localStorage.getItem("aayup_dynamic_blog_posts");
+				if (stored) {
+					const parsed = JSON.parse(stored);
+					if (Array.isArray(parsed) && parsed.length > 0) {
+						setAllPosts(
+							parsed.map((b: any) => ({
+								id: b.id,
+								title: b.title,
+								summary: b.excerpt,
+								content: b.content,
+								readingTime: "5 min read",
+								author: b.author,
+								date: b.created_at || new Date().toISOString(),
+								image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+								category: b.category,
+								tags: [b.category],
+								keyPoints: [b.excerpt],
+							}))
+						);
+					}
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		};
+
+		loadDetail();
+	}, []);
+
+	const post = allPosts.find((b) => b.id === id);
 
 	if (!post) {
 		return (
@@ -151,8 +209,8 @@ const BlogDetail = () => {
 						<div className="mt-6">
 							<h4 className="font-medium mb-2">Related posts</h4>
 							<ul className="space-y-2">
-								{post.related.map((rid) => {
-									const related = blogPosts.find((b) => b.id === rid);
+								{post.related.map((rid: string) => {
+									const related = allPosts.find((b) => b.id === rid);
 									if (!related) return null;
 									return (
 										<li key={rid}>

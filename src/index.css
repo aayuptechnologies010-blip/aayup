@@ -199,12 +199,12 @@ All colors MUST be HSL.
 
   .testimonial-scroll-ltr {
     animation-name: scroll-left;
-    animation-duration: 40s;
+    animation-duration: 18s;
   }
 
   .testimonial-scroll-rtl {
     animation-name: scroll-right;
-    animation-duration: 40s;
+    animation-duration: 18s;
   }
 
   /* Pause animation on hover */
