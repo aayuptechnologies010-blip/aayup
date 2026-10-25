@@ -13,6 +13,7 @@ import {
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 import { PORTFOLIO_PROJECTS, ProjectItem } from "@/data/projectsData";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const CATEGORIES = [
   "All Projects",
@@ -27,24 +28,22 @@ export default function ProjectsPortfolioView() {
   const [projectsList, setProjectsList] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
 
   useEffect(() => {
+    let isMounted = true;
     const loadDynamicProjects = () => {
-      try {
-        const stored = localStorage.getItem("aayup_dynamic_portfolio_projects");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setProjectsList(parsed);
-          }
+      getDynamicData<ProjectItem[]>(DYNAMIC_KEYS.PROJECTS, PORTFOLIO_PROJECTS).then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setProjectsList(data);
         }
-      } catch (e) {
-        console.error("Failed to read dynamic projects", e);
-      }
+      });
     };
 
     loadDynamicProjects();
+    window.addEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
     window.addEventListener("portfolio_projects_updated", loadDynamicProjects);
     window.addEventListener("storage", loadDynamicProjects);
     return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
       window.removeEventListener("portfolio_projects_updated", loadDynamicProjects);
       window.removeEventListener("storage", loadDynamicProjects);
     };

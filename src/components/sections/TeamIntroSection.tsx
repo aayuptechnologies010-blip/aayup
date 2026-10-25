@@ -5,7 +5,8 @@ import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook } from
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const INITIAL_TEAM = [
   {
@@ -13,55 +14,85 @@ const INITIAL_TEAM = [
     role: "Lead Software Architect & Engineering Lead",
     badge: "Core Team",
     bio: "Guides full-stack engineering, cloud architecture, and technical innovation across client software engagements.",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop",
   },
   {
     name: "Sarthak Verma",
     role: "Senior Full-Stack & Mobile Developer",
     badge: "Engineering",
     bio: "Specializes in modern React/Next.js platforms, cross-platform mobile architecture, and resilient API systems.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop",
   },
   {
     name: "Product & Engineering Collective",
     role: "Cross-Functional Software Developers & Designers",
     badge: "Technical Specialists",
     bio: "Dedicated team of UI/UX designers, backend developers, and quality engineers building high-performance digital products.",
+    avatar: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&auto=format&fit=crop",
   },
 ];
 
 export default function TeamIntroSection() {
   const [teamMembers, setTeamMembers] = useState<any[]>(INITIAL_TEAM);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const loadTeam = () => {
-      try {
-        const stored = localStorage.getItem("aayup_dynamic_team_members");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            const active = parsed.filter((m: any) => m.active !== false);
-            if (active.length > 0) setTeamMembers(active);
-          }
+      getDynamicData<any[]>(DYNAMIC_KEYS.TEAM, INITIAL_TEAM).then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const active = data.filter((m: any) => m.active !== false);
+          if (active.length > 0) setTeamMembers(active);
         }
-      } catch (e) {
-        console.error(e);
-      }
+      });
     };
 
     loadTeam();
+    window.addEventListener("aayup_dynamic_data_updated", loadTeam);
     window.addEventListener("team_members_updated", loadTeam);
     window.addEventListener("storage", loadTeam);
     return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadTeam);
       window.removeEventListener("team_members_updated", loadTeam);
       window.removeEventListener("storage", loadTeam);
     };
   }, []);
 
+  // Continuous Auto-Scroll Carousel with Hover-to-Pause
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let animationFrameId: number;
+    const scrollSpeed = 0.55; // Pixels per frame (~35px/sec)
+
+    const step = () => {
+      if (!isPaused && container) {
+        container.scrollLeft += scrollSpeed;
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
+    };
+
+    animationFrameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPaused, teamMembers]);
+
+  // Duplicate items for infinite seamless scroll
+  const displayMembers = teamMembers.length < 5
+    ? [...teamMembers, ...teamMembers, ...teamMembers, ...teamMembers]
+    : [...teamMembers, ...teamMembers];
+
   return (
-    <section id="team" className="scroll-mt-24 py-12 md:py-16 bg-white dark:bg-[#0B1220]">
+    <section id="team" className="scroll-mt-24 py-12 md:py-16 bg-white dark:bg-[#0B1220] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
             <span className="text-xs sm:text-sm uppercase tracking-wider font-bold text-[#1769AA] dark:text-[#2D86C9]">
               The People Behind The Code
@@ -77,29 +108,31 @@ export default function TeamIntroSection() {
             <Link to="/careers">
               <Button
                 variant="outline"
-                className="rounded-xl border-2 border-[#1769AA] text-[#1769AA] hover:bg-[#1769AA] hover:text-white font-semibold transition-all"
+                className="rounded-xl border-2 border-[#1769AA] text-[#1769AA] hover:bg-[#1769AA] hover:text-white font-semibold transition-all group"
               >
                 Join Our Team
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
         </div>
 
-        {/* Team Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {teamMembers.map((member, index) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-all"
+        {/* Continuous Infinite Sliding Carousel (Pauses on Hover) */}
+        <div
+          ref={scrollContainerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="flex gap-6 overflow-x-hidden no-scrollbar py-4 mb-16 select-none cursor-grab active:cursor-grabbing"
+          style={{ scrollBehavior: "auto" }}
+        >
+          {displayMembers.map((member, index) => (
+            <div
+              key={`${member.name}-${index}`}
+              className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
             >
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden ring-2 ring-[#1769AA]/20">
                     {member.avatar ? (
                       <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                     ) : (
@@ -107,7 +140,7 @@ export default function TeamIntroSection() {
                     )}
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#1769AA]/10 text-[#1769AA] dark:text-[#2D86C9]">
-                    {member.badge}
+                    {member.badge || member.department || "Core Team"}
                   </span>
                 </div>
 
@@ -117,7 +150,7 @@ export default function TeamIntroSection() {
                 <p className="text-sm font-medium text-[#1769AA] dark:text-[#2D86C9] mt-1">
                   {member.role}
                 </p>
-                <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed line-clamp-3">
                   {member.bio}
                 </p>
 
@@ -165,7 +198,7 @@ export default function TeamIntroSection() {
                 <Code className="w-3.5 h-3.5 text-[#1769AA]" />
                 <span>Verified AAYUP Technologies Team</span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 

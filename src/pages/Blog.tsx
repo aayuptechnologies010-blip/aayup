@@ -10,6 +10,7 @@ import { FloatingLogo } from "@/components/ui/floating-logo";
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const INITIAL_BLOGS = [
   {
@@ -45,61 +46,37 @@ const Blog = () => {
   const [blogPosts, setBlogPosts] = useState<any[]>(INITIAL_BLOGS);
 
   useEffect(() => {
+    let isMounted = true;
     const loadBlogs = async () => {
-      try {
-        // 1. Try Supabase
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false });
-
-        if (data && data.length > 0 && !error) {
+      const data = await getDynamicData<any[]>(DYNAMIC_KEYS.BLOGS, INITIAL_BLOGS);
+      if (isMounted && Array.isArray(data)) {
+        const published = data.filter((p: any) => p.published !== false);
+        if (published.length > 0) {
           setBlogPosts(
-            data.map((b) => ({
+            published.map((b: any) => ({
               id: b.id,
               title: b.title,
               excerpt: b.excerpt,
               author: b.author,
               date: b.created_at || new Date().toISOString(),
-              image: b.image_url || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+              image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
               category: b.category,
             }))
           );
-          return;
         }
-      } catch (e) {
-        // Fallback
-      }
-
-      // 2. Check local storage
-      try {
-        const stored = localStorage.getItem("aayup_dynamic_blog_posts");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          const published = parsed.filter((p: any) => p.published !== false);
-          if (published.length > 0) {
-            setBlogPosts(
-              published.map((b: any) => ({
-                id: b.id,
-                title: b.title,
-                excerpt: b.excerpt,
-                author: b.author,
-                date: b.created_at || new Date().toISOString(),
-                image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-                category: b.category,
-              }))
-            );
-          }
-        }
-      } catch (e) {
-        console.error(e);
       }
     };
 
     loadBlogs();
+    window.addEventListener("aayup_dynamic_data_updated", loadBlogs);
     window.addEventListener("blog_posts_updated", loadBlogs);
-    return () => window.removeEventListener("blog_posts_updated", loadBlogs);
+    window.addEventListener("storage", loadBlogs);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadBlogs);
+      window.removeEventListener("blog_posts_updated", loadBlogs);
+      window.removeEventListener("storage", loadBlogs);
+    };
   }, []);
 
   return (

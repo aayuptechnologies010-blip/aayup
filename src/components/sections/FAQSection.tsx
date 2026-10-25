@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 interface FAQItem {
   question: string;
@@ -74,38 +75,36 @@ export default function FAQSection() {
   const [faqsList, setFaqsList] = useState<FAQItem[]>(FAQS);
 
   useEffect(() => {
+    let isMounted = true;
     const loadFaqs = () => {
-      try {
-        const stored = localStorage.getItem("aayup_dynamic_faqs");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            const mapped = parsed
-              .filter((f: any) => f.active !== false)
-              .map((f: any) => {
-                let icon = Clock;
-                if (f.category === "Code & Ownership") icon = Code;
-                else if (f.category === "Pricing & Payment") icon = CreditCard;
-                else if (f.category === "Support & Tech") icon = Wrench;
-                return {
-                  category: f.category,
-                  icon,
-                  question: f.question,
-                  answer: f.answer,
-                };
-              });
-            if (mapped.length > 0) setFaqsList(mapped);
-          }
+      getDynamicData<any[]>(DYNAMIC_KEYS.FAQS, FAQS).then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          const mapped = data
+            .filter((f: any) => f.active !== false)
+            .map((f: any) => {
+              let icon = Clock;
+              if (f.category === "Code & Ownership") icon = Code;
+              else if (f.category === "Pricing & Payment") icon = CreditCard;
+              else if (f.category === "Support & Tech") icon = Wrench;
+              return {
+                category: f.category,
+                icon,
+                question: f.question,
+                answer: f.answer,
+              };
+            });
+          if (mapped.length > 0) setFaqsList(mapped);
         }
-      } catch (e) {
-        console.error(e);
-      }
+      });
     };
 
     loadFaqs();
+    window.addEventListener("aayup_dynamic_data_updated", loadFaqs);
     window.addEventListener("faqs_updated", loadFaqs);
     window.addEventListener("storage", loadFaqs);
     return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadFaqs);
       window.removeEventListener("faqs_updated", loadFaqs);
       window.removeEventListener("storage", loadFaqs);
     };

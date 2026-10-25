@@ -10,6 +10,7 @@ import AuthModal from "./AuthModal";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -198,45 +199,88 @@ const Navigation = () => {
     setAdminDropdownOpen(!adminDropdownOpen);
   };
 
+  const [announcement, setAnnouncement] = useState<{
+    badge: string;
+    text: string;
+    linkText?: string;
+    linkUrl?: string;
+    active: boolean;
+  }>({
+    badge: "📢 Announcement",
+    text: "Currently we are not hiring! Follow us for future job updates & opportunities:",
+    linkText: "Follow on LinkedIn",
+    linkUrl: "https://www.linkedin.com/in/aayup-technologies-a030a5372/",
+    active: true,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveAnnouncement = () => {
+      getDynamicData(DYNAMIC_KEYS.ANNOUNCEMENT, {
+        badge: "📢 Announcement",
+        text: "Currently we are not hiring! Follow us for future job updates & opportunities:",
+        linkText: "Follow on LinkedIn",
+        linkUrl: "https://www.linkedin.com/in/aayup-technologies-a030a5372/",
+        active: true,
+      }).then((data) => {
+        if (isMounted && data) {
+          setAnnouncement(data as any);
+        }
+      });
+    };
+
+    fetchLiveAnnouncement();
+    window.addEventListener("aayup_dynamic_data_updated", fetchLiveAnnouncement);
+    window.addEventListener("storage", fetchLiveAnnouncement);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", fetchLiveAnnouncement);
+      window.removeEventListener("storage", fetchLiveAnnouncement);
+    };
+  }, []);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40">
       {/* Top Thin Notification & Contact Bar */}
-      <div className="bg-[#0B1E38] text-white text-xs border-b border-white/10 transition-all duration-300">
-        <div className="container mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2.5">
-          {/* Left: Quick Notice Banner */}
-          <div className="flex items-center gap-2 font-medium">
-            <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-[#1769AA]/30 text-cyan-300 border border-[#1769AA]/40 text-[10px] font-semibold uppercase tracking-wider">
-              📢 Announcement
-            </span>
-            <span className="text-slate-200 hidden sm:inline">
-              Currently we are not hiring! Follow us for future job updates & opportunities:
-            </span>
-            <a
-              href="https://www.linkedin.com/in/aayup-technologies-a030a5372/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-cyan-300 hover:text-white font-semibold underline underline-offset-2 transition-colors ml-1"
-            >
-              Follow on LinkedIn <ArrowRight className="w-3 h-3" />
-            </a>
-          </div>
-
-          {/* Right: Phone, WhatsApp, Instagram, LinkedIn */}
-          <div className="flex items-center gap-3 ml-auto">
-            {/* Phone / WhatsApp */}
-            <a
-              href="https://wa.me/918382984709?text=Hello%20Aayup%20Technologies"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-slate-200 hover:text-emerald-400 transition-colors font-medium"
-            >
-              <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center">
-                <MessageCircle className="w-3.5 h-3.5" />
+      {announcement.active !== false && (
+        <div className="bg-[#0B1E38] text-white text-xs border-b border-white/10 transition-all duration-300">
+          <div className="container mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2.5">
+            {/* Left: Dynamic Quick Notice Banner */}
+            <div className="flex items-center gap-2 font-medium">
+              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-[#1769AA]/30 text-cyan-300 border border-[#1769AA]/40 text-[10px] font-semibold uppercase tracking-wider">
+                {announcement.badge || "Announcement"}
               </span>
-              <span className="hidden md:inline font-mono">+91 8382984709</span>
-            </a>
+              <span className="text-slate-200 hidden sm:inline">
+                {announcement.text}
+              </span>
+              {announcement.linkUrl && announcement.linkText && (
+                <a
+                  href={announcement.linkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-cyan-300 hover:text-white font-semibold underline underline-offset-2 transition-colors ml-1"
+                >
+                  {announcement.linkText} <ArrowRight className="w-3 h-3" />
+                </a>
+              )}
+            </div>
 
-            <div className="w-[1px] h-3.5 bg-white/20 hidden sm:block" />
+            {/* Right: Phone, WhatsApp, Instagram, LinkedIn */}
+            <div className="flex items-center gap-3 ml-auto">
+              {/* Phone / WhatsApp */}
+              <a
+                href="https://wa.me/918382984709?text=Hello%20Aayup%20Technologies"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-slate-200 hover:text-emerald-400 transition-colors font-medium"
+              >
+                <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center">
+                  <MessageCircle className="w-3.5 h-3.5" />
+                </span>
+                <span className="hidden md:inline font-mono">+91 8382984709</span>
+              </a>
+
+              <div className="w-[1px] h-3.5 bg-white/20 hidden sm:block" />
 
             {/* Social Circle Icons */}
             <div className="flex items-center gap-2">
@@ -276,10 +320,11 @@ const Navigation = () => {
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                 </svg>
               </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Navbar */}
       <nav
