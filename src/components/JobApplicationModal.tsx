@@ -4,6 +4,7 @@ import { X, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { getApiUrl } from "@/lib/apiConfig";
 
 const JobApplicationModal: React.FC<{ open: boolean; onClose: () => void; job?: any }> = ({
   open,
@@ -116,27 +117,30 @@ const JobApplicationModal: React.FC<{ open: boolean; onClose: () => void; job?: 
 
       if (insertError) throw insertError;
 
-      // Send emails with resume
-      const emailFormData = new FormData();
-      emailFormData.append('resume', resumeFile);
-      emailFormData.append('data', JSON.stringify({
-        ...applicationData,
-        job_title: job.title,
-        relevant_skills: formData.relevant_skills
-      }));
+      // Send notification emails with resume (Non-blocking, never fails the application submission)
+      try {
+        const apiUrl = getApiUrl();
+        if (apiUrl) {
+          const emailFormData = new FormData();
+          emailFormData.append('resume', resumeFile);
+          emailFormData.append('data', JSON.stringify({
+            ...applicationData,
+            job_title: job.title,
+            relevant_skills: formData.relevant_skills
+          }));
 
-      const emailResponse = await fetch(`${import.meta.env.VITE_API_URL}/send-job-application-email`, {
-        method: 'POST',
-        body: emailFormData
-      });
-
-      if (!emailResponse.ok) {
-        console.error('Email sending failed, but application saved');
+          await fetch(`${apiUrl}/send-job-application-email`, {
+            method: 'POST',
+            body: emailFormData
+          });
+        }
+      } catch (emailErr) {
+        console.warn('Backend notification email could not be delivered, but application was saved in database:', emailErr);
       }
 
       toast({
-        title: "Application Submitted!",
-        description: "We'll review your application and get back to you soon.",
+        title: "Application Submitted Successfully!",
+        description: "Your application has been received. Our engineering team will review your profile and contact you soon.",
       });
 
       onClose();

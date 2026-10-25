@@ -120,7 +120,7 @@ const Navigation = () => {
     { name: "About Us", href: "/about" },
     { name: "Our Team", href: "/about#team" },
     { name: "Careers", href: "/careers" },
-    { name: "Contact", href: "/contact" },
+    // { name: "Contact", href: "/contact" },
   ];
 
   const adminNavItems = [
@@ -301,15 +301,12 @@ const Navigation = () => {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center group py-1">
             <img
-              src="/logo.webp"
-              alt="Aayup Technologies"
-              className="w-12 h-12 rounded-full border-2 border-[#1769AA]/20 group-hover:scale-105 transition-transform"
+              src="/footer.png"
+              alt="AAYUP Technologies"
+              className="h-10 sm:h-15 w-auto object-contain group-hover:scale-[1.02] transition-transform"
             />
-            <span className="text-xl font-bold text-[#0B1220]">
-              Aayup <span className="text-[#1769AA]">Technologies</span>
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -350,75 +347,6 @@ const Navigation = () => {
                 Discuss Your Project
               </Button>
             </Link>
-
-            {/* User/Admin Dropdown */}
-            <div
-              ref={dropdownRef}
-              className="relative ml-2"
-              onMouseEnter={() => setIsDropdownHovered(true)}
-              onMouseLeave={() => setIsDropdownHovered(false)}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                className="flex items-center gap-1 hover:bg-transparent"
-                onClick={handleDropdownToggle}
-              >
-                {getUserDisplayName()}
-                <ChevronDown className={`w-4 h-4 transition-transform ${adminDropdownOpen ? 'rotate-180' : ''}`} />
-              </Button>
-
-              {(adminDropdownOpen || isDropdownHovered) && (
-                <div 
-                  className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg py-2 z-20"
-                  onMouseEnter={() => setIsDropdownHovered(true)}
-                  onMouseLeave={() => setIsDropdownHovered(false)}
-                >
-                  {currentUser ? (
-                    <>
-                      <button
-                        onClick={() => {
-                          setAdminDropdownOpen(false);
-                          navigate("/admin/profile");
-                        }}
-                        className="w-full px-4 py-2 text-left text-foreground/80 hover:text-primary hover:bg-muted/50 transition-colors flex items-center gap-2"
-                      >
-                        <User className="w-4 h-4" />
-                        Profile
-                      </button>
-                      <button
-                        onClick={() => {
-                          setAdminDropdownOpen(false);
-                          navigate("/admin/settings");
-                        }}
-                        className="w-full px-4 py-2 text-left text-foreground/80 hover:text-primary hover:bg-muted/50 transition-colors flex items-center gap-2"
-                      >
-                        <Settings className="w-4 h-4" />
-                        Settings
-                      </button>
-                      <div className="border-t border-border my-1"></div>
-                      <button
-                        onClick={handleSignOut}
-                        className="w-full px-4 py-2 text-left text-destructive hover:bg-destructive/10 transition-colors flex items-center gap-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setAdminDropdownOpen(false);
-                        setAuthOpen(true);
-                      }}
-                      className="w-full px-4 py-2 text-left text-foreground/80 hover:text-primary hover:bg-muted/50 transition-colors"
-                    >
-                      Sign In
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -478,69 +406,13 @@ const Navigation = () => {
                   );
                 })}
 
-                {/* Bottom Actions & User Profile */}
+                {/* Bottom Actions */}
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: navItems.length * 0.04 + 0.05 }}
                   className="pt-3 mt-2 border-t border-slate-200/80 space-y-2.5"
                 >
-                  {currentUser ? (
-                    <div className="bg-slate-50 p-2.5 rounded-xl space-y-1 border border-slate-200/60">
-                      <div className="px-2 py-1 text-xs font-semibold text-slate-500">
-                        Signed in as <span className="text-[#1769AA]">{getUserDisplayName()}</span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs font-medium"
-                        onClick={() => {
-                          setIsMobileMenuOpen(false);
-                          navigate("/admin/profile");
-                        }}
-                      >
-                        <User className="w-4 h-4 mr-2 text-[#1769AA]" />
-                        Profile
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs font-medium"
-                        onClick={() => {
-                          setIsMobileMenuOpen(false);
-                          navigate("/admin/settings");
-                        }}
-                      >
-                        <Settings className="w-4 h-4 mr-2 text-[#1769AA]" />
-                        Settings
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs font-medium text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={() => {
-                          setIsMobileMenuOpen(false);
-                          handleSignOut();
-                        }}
-                      >
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Sign Out
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between px-2 pt-1">
-                      <button
-                        onClick={() => {
-                          setIsMobileMenuOpen(false);
-                          setAuthOpen(true);
-                        }}
-                        className="text-xs font-bold text-slate-600 hover:text-[#1769AA] py-1 transition-colors flex items-center gap-1.5"
-                      >
-                        <User className="w-3.5 h-3.5 text-[#1769AA]" />
-                        Admin Sign In
-                      </button>
-                    </div>
-                  )}
 
                   <Link
                     to="/contact"

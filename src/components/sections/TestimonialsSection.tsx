@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { optimizeSupabaseImage } from "@/lib/utils";
 import { FloatingLogo } from "@/components/ui/floating-logo";
+import { getApiUrl } from "@/lib/apiConfig";
 
 interface Testimonial {
   id: string;
@@ -393,20 +394,23 @@ function QueriesForm({ onSubmitSuccess }: { onSubmitSuccess?: () => void }) {
 
       if (dbError) throw dbError;
 
-      // Send emails with avatar
-      const emailFormData = new FormData();
-      if (avatarFile) {
-        emailFormData.append('avatar', avatarFile);
-      }
-      emailFormData.append('data', JSON.stringify(testimonialData));
+      // Send emails with avatar (non-blocking)
+      try {
+        const apiUrl = getApiUrl();
+        if (apiUrl) {
+          const emailFormData = new FormData();
+          if (avatarFile) {
+            emailFormData.append('avatar', avatarFile);
+          }
+          emailFormData.append('data', JSON.stringify(testimonialData));
 
-      const emailResponse = await fetch(`${import.meta.env.VITE_API_URL}/send-testimonial-email`, {
-        method: 'POST',
-        body: emailFormData
-      });
-
-      if (!emailResponse.ok) {
-        console.error('Email sending failed, but testimonial saved');
+          await fetch(`${apiUrl}/send-testimonial-email`, {
+            method: 'POST',
+            body: emailFormData
+          });
+        }
+      } catch (emailErr) {
+        console.warn('Testimonial email notification could not be delivered, but saved in database:', emailErr);
       }
 
       toast({

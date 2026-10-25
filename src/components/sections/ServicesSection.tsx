@@ -5,6 +5,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { FloatingLogo } from "@/components/ui/floating-logo";
+import { getApiUrl } from "@/lib/apiConfig";
 
 const ServicesSection = () => {
   const services = [
@@ -293,15 +294,18 @@ function StudentProgramButton() {
 
       if (dbError) throw dbError;
 
-      // Send emails
-      const emailResponse = await fetch(`${import.meta.env.VITE_API_URL}/send-student-application-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(applicationData)
-      });
-
-      if (!emailResponse.ok) {
-        console.error('Email sending failed, but data saved');
+      // Send emails (non-blocking)
+      try {
+        const apiUrl = getApiUrl();
+        if (apiUrl) {
+          await fetch(`${apiUrl}/send-student-application-email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(applicationData)
+          });
+        }
+      } catch (emailErr) {
+        console.warn('Student email notification could not be delivered, but application was saved in database:', emailErr);
       }
 
       toast({

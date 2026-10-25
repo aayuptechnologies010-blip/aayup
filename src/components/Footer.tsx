@@ -11,15 +11,12 @@ const Footer = () => {
           
           {/* Column 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center space-x-3 group">
+            <Link to="/" className="flex items-center group">
               <img
-                src="/logo.webp"
+                src="/footer.png"
                 alt="AAYUP Technologies"
-                className="w-11 h-11 rounded-full border border-[#2D86C9]/40 group-hover:scale-105 transition-transform"
+                className="h-10 md:h-14 w-auto object-contain bg-  rounded-lg px-2 py-1 group-hover:scale-105 transition-transform shadow-md"
               />
-              <span className="text-xl font-bold tracking-tight text-white">
-                AAYUP <span className="text-[#2D86C9]">Technologies</span>
-              </span>
             </Link>
             <p className="text-slate-300 text-sm leading-relaxed max-w-sm">
               AAYUP Technologies Pvt. Ltd. is a full-service software development company building modern web applications, scalable mobile apps, custom enterprise software, and AI solutions.
