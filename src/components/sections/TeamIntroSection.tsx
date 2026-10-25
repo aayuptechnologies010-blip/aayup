@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook } from "lucide-react";
+import { ArrowRight, Users, Code, Sparkles, Linkedin, Instagram, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 
@@ -86,6 +86,18 @@ export default function TeamIntroSection() {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, teamMembers]);
 
+  const handlePrev = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -360, behavior: "smooth" });
+    }
+  };
+
+  const handleNext = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 360, behavior: "smooth" });
+    }
+  };
+
   // Duplicate items for infinite seamless scroll only if items exist
   const displayMembers =
     teamMembers.length === 0
@@ -127,87 +139,118 @@ export default function TeamIntroSection() {
         {/* Team Members Display (or clean notice when panel has 0 members) */}
         {displayMembers.length > 0 ? (
           <div
-            ref={scrollContainerRef}
+            className="group/teamslider relative mb-16"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            className="flex gap-6 overflow-x-hidden no-scrollbar py-4 mb-16 select-none cursor-grab active:cursor-grabbing"
-            style={{ scrollBehavior: "auto" }}
           >
-            {displayMembers.map((member, index) => (
-              <div
-                key={`${member.name}-${index}`}
-                className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
-              >
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden ring-2 ring-[#1769AA]/20">
-                    {member.avatar ? (
-                      <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                    ) : (
-                      member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")
-                    )}
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-6 overflow-x-hidden no-scrollbar py-4 select-none cursor-grab active:cursor-grabbing"
+              style={{ scrollBehavior: "auto" }}
+            >
+              {displayMembers.map((member, index) => (
+                <div
+                  key={`${member.name}-${index}`}
+                  className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
+                >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden ring-2 ring-[#1769AA]/20">
+                      {member.avatar ? (
+                        <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                      ) : (
+                        member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")
+                      )}
+                    </div>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#1769AA]/10 text-[#1769AA] dark:text-[#2D86C9]">
+                      {member.badge || member.department || "Core Team"}
+                    </span>
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#1769AA]/10 text-[#1769AA] dark:text-[#2D86C9]">
-                    {member.badge || member.department || "Core Team"}
-                  </span>
+
+                  <h3 className="text-xl font-bold text-[#0B1220] dark:text-white">
+                    {member.name}
+                  </h3>
+                  <p className="text-sm font-medium text-[#1769AA] dark:text-[#2D86C9] mt-1">
+                    {member.role}
+                  </p>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed line-clamp-3">
+                    {member.bio}
+                  </p>
+
+                  {/* Social Links on card */}
+                  {(member.linkedin || member.instagram || member.facebook) && (
+                    <div className="flex items-center gap-2.5 mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10">
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-1.5 rounded-lg bg-blue-50 dark:bg-white/10 text-blue-700 dark:text-blue-400 hover:bg-blue-100 transition-colors"
+                          title="LinkedIn"
+                        >
+                          <Linkedin className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                      {member.instagram && (
+                        <a
+                          href={member.instagram}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-1.5 rounded-lg bg-pink-50 dark:bg-white/10 text-pink-700 dark:text-pink-400 hover:bg-pink-100 transition-colors"
+                          title="Instagram"
+                        >
+                          <Instagram className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                      {member.facebook && (
+                        <a
+                          href={member.facebook}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-1.5 rounded-lg bg-indigo-50 dark:bg-white/10 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 transition-colors"
+                          title="Facebook"
+                        >
+                          <Facebook className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
 
-                <h3 className="text-xl font-bold text-[#0B1220] dark:text-white">
-                  {member.name}
-                </h3>
-                <p className="text-sm font-medium text-[#1769AA] dark:text-[#2D86C9] mt-1">
-                  {member.role}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 text-sm mt-3.5 leading-relaxed line-clamp-3">
-                  {member.bio}
-                </p>
-
-                {/* Social Links on card */}
-                {(member.linkedin || member.instagram || member.facebook) && (
-                  <div className="flex items-center gap-2.5 mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10">
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1.5 rounded-lg bg-blue-50 dark:bg-white/10 text-blue-700 dark:text-blue-400 hover:bg-blue-100 transition-colors"
-                        title="LinkedIn"
-                      >
-                        <Linkedin className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                    {member.instagram && (
-                      <a
-                        href={member.instagram}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1.5 rounded-lg bg-pink-50 dark:bg-white/10 text-pink-700 dark:text-pink-400 hover:bg-pink-100 transition-colors"
-                        title="Instagram"
-                      >
-                        <Instagram className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                    {member.facebook && (
-                      <a
-                        href={member.facebook}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1.5 rounded-lg bg-indigo-50 dark:bg-white/10 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 transition-colors"
-                        title="Facebook"
-                      >
-                        <Facebook className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                  </div>
-                )}
+                <div className="pt-4 mt-5 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  <Code className="w-3.5 h-3.5 text-[#1769AA]" />
+                  <span>Verified AAYUP Technologies Team</span>
+                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="pt-4 mt-5 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <Code className="w-3.5 h-3.5 text-[#1769AA]" />
-                <span>Verified AAYUP Technologies Team</span>
-              </div>
+          {/* Prev / Next Slider Controls Below (Reveals on Hover) */}
+          <div className="flex items-center justify-center gap-4 mt-4 transition-all duration-300 opacity-0 group-hover/teamslider:opacity-100 translate-y-1 group-hover/teamslider:translate-y-0">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous Team Members"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0D4F85] dark:text-[#2D86C9] border-2 border-slate-200 dark:border-white/10 shadow-lg hover:bg-[#1769AA] hover:text-white hover:border-[#1769AA] dark:hover:bg-[#1769AA] dark:hover:text-white transition-all transform active:scale-95 cursor-pointer"
+              title="Previous"
+            >
+              <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+            </button>
+
+            <div className="h-1.5 w-16 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#1769AA] to-[#2D86C9] rounded-full animate-pulse" />
             </div>
-          ))}
+
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next Team Members"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white dark:bg-[#131F33] text-[#0D4F85] dark:text-[#2D86C9] border-2 border-slate-200 dark:border-white/10 shadow-lg hover:bg-[#1769AA] hover:text-white hover:border-[#1769AA] dark:hover:bg-[#1769AA] dark:hover:text-white transition-all transform active:scale-95 cursor-pointer"
+              title="Next"
+            >
+              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+            </button>
+          </div>
         </div>
       ) : isLoaded ? (
           <div className="py-12 mb-16 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl bg-slate-50/50 dark:bg-white/5">
