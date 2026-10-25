@@ -33,17 +33,21 @@ const INITIAL_TEAM = [
 ];
 
 export default function TeamIntroSection() {
-  const [teamMembers, setTeamMembers] = useState<any[]>(INITIAL_TEAM);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
     const loadTeam = () => {
-      getDynamicData<any[]>(DYNAMIC_KEYS.TEAM, INITIAL_TEAM).then((data) => {
-        if (isMounted && Array.isArray(data)) {
-          const active = data.filter((m: any) => m.active !== false);
-          if (active.length > 0) setTeamMembers(active);
+      getDynamicData<any[]>(DYNAMIC_KEYS.TEAM, []).then((data) => {
+        if (isMounted) {
+          setIsLoaded(true);
+          if (Array.isArray(data)) {
+            const active = data.filter((m: any) => m.active !== false);
+            setTeamMembers(active);
+          }
         }
       });
     };
@@ -63,7 +67,7 @@ export default function TeamIntroSection() {
   // Continuous Auto-Scroll Carousel with Hover-to-Pause
   useEffect(() => {
     const container = scrollContainerRef.current;
-    if (!container) return;
+    if (!container || teamMembers.length === 0) return;
 
     let animationFrameId: number;
     const scrollSpeed = 0.55; // Pixels per frame (~35px/sec)
@@ -82,10 +86,13 @@ export default function TeamIntroSection() {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, teamMembers]);
 
-  // Duplicate items for infinite seamless scroll
-  const displayMembers = teamMembers.length < 5
-    ? [...teamMembers, ...teamMembers, ...teamMembers, ...teamMembers]
-    : [...teamMembers, ...teamMembers];
+  // Duplicate items for infinite seamless scroll only if items exist
+  const displayMembers =
+    teamMembers.length === 0
+      ? []
+      : teamMembers.length < 5
+      ? [...teamMembers, ...teamMembers, ...teamMembers, ...teamMembers]
+      : [...teamMembers, ...teamMembers];
 
   return (
     <section id="team" className="scroll-mt-24 py-12 md:py-16 bg-white dark:bg-[#0B1220] overflow-hidden">
@@ -117,19 +124,20 @@ export default function TeamIntroSection() {
           </div>
         </div>
 
-        {/* Continuous Infinite Sliding Carousel (Pauses on Hover) */}
-        <div
-          ref={scrollContainerRef}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="flex gap-6 overflow-x-hidden no-scrollbar py-4 mb-16 select-none cursor-grab active:cursor-grabbing"
-          style={{ scrollBehavior: "auto" }}
-        >
-          {displayMembers.map((member, index) => (
-            <div
-              key={`${member.name}-${index}`}
-              className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
-            >
+        {/* Team Members Display (or clean notice when panel has 0 members) */}
+        {displayMembers.length > 0 ? (
+          <div
+            ref={scrollContainerRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            className="flex gap-6 overflow-x-hidden no-scrollbar py-4 mb-16 select-none cursor-grab active:cursor-grabbing"
+            style={{ scrollBehavior: "auto" }}
+          >
+            {displayMembers.map((member, index) => (
+              <div
+                key={`${member.name}-${index}`}
+                className="w-[310px] sm:w-[350px] flex-shrink-0 bg-[#F3F7FB] dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-[#1769AA]/40 transition-all transform hover:-translate-y-1.5 duration-300"
+              >
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#1769AA] to-[#2D86C9] text-white flex items-center justify-center font-bold text-lg shadow-md overflow-hidden ring-2 ring-[#1769AA]/20">
@@ -201,6 +209,17 @@ export default function TeamIntroSection() {
             </div>
           ))}
         </div>
+      ) : isLoaded ? (
+          <div className="py-12 mb-16 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl bg-slate-50/50 dark:bg-white/5">
+            <Users className="w-10 h-10 mx-auto text-slate-400 mb-2" />
+            <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+              No team members to display currently.
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              Add team members in the Admin Panel to display them here live.
+            </p>
+          </div>
+        ) : null}
 
         {/* ATTRACTIVE JOIN OUR TEAM SHOWCASE BANNER */}
         <motion.div
