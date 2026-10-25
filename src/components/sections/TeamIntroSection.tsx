@@ -211,15 +211,15 @@ export default function TeamIntroSection() {
                 return (
                   <div
                     key={`${member.name}-${index}`}
-                    className={`w-[285px] sm:w-[310px] flex-shrink-0 rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 flex flex-col ${
+                    className={`w-[240px] sm:w-[265px] flex-shrink-0 rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col ${
                       isFeatured
-                        ? "bg-[#0066FF] text-white shadow-[0_20px_45px_-10px_rgba(0,102,255,0.45)] ring-2 ring-[#0066FF]"
-                        : "bg-white dark:bg-[#0E1626] text-[#0B1220] dark:text-white shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] border border-slate-100 dark:border-white/5 hover:shadow-[0_20px_40px_-5px_rgba(0,102,255,0.2)]"
+                        ? "bg-[#0066FF] text-white shadow-[0_15px_35px_-8px_rgba(0,102,255,0.4)] ring-2 ring-[#0066FF]"
+                        : "bg-white dark:bg-[#0E1626] text-[#0B1220] dark:text-white shadow-[0_6px_20px_-4px_rgba(0,0,0,0.07)] dark:shadow-[0_6px_20px_-4px_rgba(0,0,0,0.35)] border border-slate-100 dark:border-white/5 hover:shadow-[0_15px_30px_-5px_rgba(0,102,255,0.18)]"
                     }`}
                   >
                     {/* Top Image Stage with Signature Blue Circular Accent Behind Person */}
                     <div
-                      className={`relative w-full h-72 overflow-hidden flex items-end justify-center ${
+                      className={`relative w-full h-56 sm:h-60 overflow-hidden flex items-end justify-center ${
                         isFeatured
                           ? "bg-gradient-to-br from-[#1E88E5] to-[#0066FF]"
                           : "bg-gradient-to-br from-[#EAF2FB] to-[#DCEAF8] dark:from-[#131F33] dark:to-[#0D1524]"
@@ -227,7 +227,7 @@ export default function TeamIntroSection() {
                     >
                       {/* Signature Circular Blue Shape Behind Person */}
                       <div
-                        className={`absolute top-2 -right-10 w-44 h-44 rounded-full pointer-events-none opacity-90 ${
+                        className={`absolute top-2 -right-8 w-36 h-36 rounded-full pointer-events-none opacity-90 ${
                           isFeatured ? "bg-[#0047BA]" : "bg-[#0066FF] dark:bg-[#1E40AF]"
                         }`}
                       />
@@ -242,7 +242,7 @@ export default function TeamIntroSection() {
                           style={{ imageRendering: "auto" }}
                         />
                       ) : (
-                        <div className="relative z-10 w-full h-full flex items-center justify-center text-4xl font-black text-[#0066FF]">
+                        <div className="relative z-10 w-full h-full flex items-center justify-center text-3xl font-black text-[#0066FF]">
                           {member.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
                         </div>
                       )}
@@ -252,7 +252,7 @@ export default function TeamIntroSection() {
                         <svg
                           viewBox="0 0 500 80"
                           preserveAspectRatio="none"
-                          className={`w-full h-9 translate-y-[2px] ${
+                          className={`w-full h-7 translate-y-[2px] ${
                             isFeatured ? "fill-[#0066FF]" : "fill-white dark:fill-[#0E1626]"
                           }`}
                         >
@@ -263,29 +263,29 @@ export default function TeamIntroSection() {
 
                     {/* Content Section Matching Mockup */}
                     <div
-                      className={`px-6 pt-2 pb-6 flex-1 flex flex-col justify-between ${
+                      className={`p-4 pt-1 sm:p-5 sm:pt-1.5 flex-1 flex flex-col justify-between ${
                         isFeatured ? "bg-[#0066FF] text-white" : "bg-white dark:bg-[#0E1626]"
                       }`}
                     >
                       <div>
                         {/* Member Name */}
-                        <h3 className="text-xl font-extrabold tracking-tight">
+                        <h3 className="text-base sm:text-lg font-extrabold tracking-tight">
                           {member.name}
                         </h3>
 
                         {/* Member Role */}
                         <p
-                          className={`text-sm font-bold mt-1 ${
-                            isFeatured ? "text-white/90" : "text-[#0066FF] dark:text-[#3B82F6]"
+                          className={`text-xs sm:text-[13px] font-bold mt-0.5 leading-snug ${
+                            isFeatured ? "text-white/95" : "text-[#0066FF] dark:text-[#3B82F6]"
                           }`}
                         >
                           {member.role}
                         </p>
 
-                        {/* Bio Description */}
+                        {/* Bio Description if present */}
                         {member.bio && (
                           <p
-                            className={`text-xs sm:text-[13px] mt-2.5 leading-relaxed line-clamp-3 ${
+                            className={`text-[11px] sm:text-xs mt-2 leading-relaxed line-clamp-2 ${
                               isFeatured ? "text-white/85" : "text-slate-500 dark:text-slate-400"
                             }`}
                           >
@@ -295,12 +295,12 @@ export default function TeamIntroSection() {
                       </div>
 
                       {/* Social Media Circular Buttons Exactly Like Reference (LinkedIn & Facebook) */}
-                      <div className="flex items-center gap-2.5 pt-5 mt-4">
+                      <div className="flex items-center gap-2 pt-3.5 mt-2">
                         <a
                           href={member.linkedin || "https://linkedin.com"}
                           target="_blank"
                           rel="noreferrer"
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
+                          className={`w-7 h-7 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
                             isFeatured
                               ? "bg-white text-[#0066FF] hover:bg-slate-100"
                               : "bg-[#0066FF] text-white hover:bg-[#0052CC]"
@@ -308,14 +308,14 @@ export default function TeamIntroSection() {
                           title="LinkedIn"
                         >
                           <Linkedin
-                            className={`w-4 h-4 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
+                            className={`w-3.5 h-3.5 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
                           />
                         </a>
                         <a
                           href={member.facebook || "https://facebook.com"}
                           target="_blank"
                           rel="noreferrer"
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
+                          className={`w-7 h-7 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-sm ${
                             isFeatured
                               ? "bg-white text-[#0066FF] hover:bg-slate-100"
                               : "bg-[#0066FF] text-white hover:bg-[#0052CC]"
@@ -323,7 +323,7 @@ export default function TeamIntroSection() {
                           title="Facebook"
                         >
                           <Facebook
-                            className={`w-4 h-4 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
+                            className={`w-3.5 h-3.5 ${isFeatured ? "fill-[#0066FF]" : "fill-white"} stroke-none`}
                           />
                         </a>
                       </div>
