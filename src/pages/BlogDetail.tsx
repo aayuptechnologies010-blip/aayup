@@ -84,59 +84,31 @@ const BlogDetail = () => {
 	const [allPosts, setAllPosts] = useState<any[]>(INITIAL_POSTS);
 
 	useEffect(() => {
-		const loadDetail = async () => {
-			try {
-				const { data } = await supabase.from("blog_posts").select("*");
-				if (data && data.length > 0) {
+		let isMounted = true;
+		import("@/lib/dynamicDataService").then(({ getDynamicData, DYNAMIC_KEYS }) => {
+			getDynamicData<any[]>(DYNAMIC_KEYS.BLOGS, INITIAL_POSTS).then((data) => {
+				if (isMounted && Array.isArray(data) && data.length > 0) {
 					setAllPosts(
-						data.map((b) => ({
+						data.map((b: any) => ({
 							id: b.id,
 							title: b.title,
-							summary: b.excerpt,
+							summary: b.excerpt || b.summary,
 							content: b.content,
-							readingTime: "5 min read",
-							author: b.author,
-							date: b.created_at || new Date().toISOString(),
-							image: b.image_url || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+							readingTime: b.readingTime || "5 min read",
+							author: b.author || "Aayup Team",
+							date: b.date || b.created_at || new Date().toISOString(),
+							image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
 							category: b.category,
-							tags: [b.category],
-							keyPoints: [b.excerpt],
+							tags: b.tags || [b.category],
+							keyPoints: b.keyPoints || (b.excerpt ? [b.excerpt] : []),
 						}))
 					);
-					return;
 				}
-			} catch (e) {
-				// Fallback
-			}
-
-			try {
-				const stored = localStorage.getItem("aayup_dynamic_blog_posts");
-				if (stored) {
-					const parsed = JSON.parse(stored);
-					if (Array.isArray(parsed) && parsed.length > 0) {
-						setAllPosts(
-							parsed.map((b: any) => ({
-								id: b.id,
-								title: b.title,
-								summary: b.excerpt,
-								content: b.content,
-								readingTime: "5 min read",
-								author: b.author,
-								date: b.created_at || new Date().toISOString(),
-								image: b.image_url || b.image || "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-								category: b.category,
-								tags: [b.category],
-								keyPoints: [b.excerpt],
-							}))
-						);
-					}
-				}
-			} catch (e) {
-				console.error(e);
-			}
+			});
+		});
+		return () => {
+			isMounted = false;
 		};
-
-		loadDetail();
 	}, []);
 
 	const post = allPosts.find((b) => b.id === id);

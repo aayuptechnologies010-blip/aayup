@@ -43,17 +43,17 @@ export default function ProjectDetail() {
   const [allProjects, setAllProjects] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("aayup_dynamic_portfolio_projects");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setAllProjects(parsed);
+    let isMounted = true;
+    import("@/lib/dynamicDataService").then(({ getDynamicData, DYNAMIC_KEYS }) => {
+      getDynamicData<ProjectItem[]>(DYNAMIC_KEYS.PROJECTS, PORTFOLIO_PROJECTS).then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setAllProjects(data);
         }
-      }
-    } catch (e) {
-      console.error(e);
-    }
+      });
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const project: ProjectItem | undefined = allProjects.find(
