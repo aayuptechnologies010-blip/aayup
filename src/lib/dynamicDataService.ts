@@ -55,6 +55,30 @@ export async function getDynamicData<T>(key: string, fallbackData: T): Promise<T
     }
   }
 
+  // 1.5. Check Backend API fallback
+  const BACKEND_URL =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.VITE_BACKEND_URL ||
+    "https://api.aayuptechnologies.com";
+  try {
+    const apiRes = await fetch(`${BACKEND_URL}/api/dynamic-data/${key}?t=${Date.now()}`, {
+      cache: "no-store",
+    });
+    if (apiRes.ok) {
+      const json = await apiRes.json();
+      if (json?.data !== undefined && json.data !== null) {
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem(key, JSON.stringify(json.data));
+          } catch (e) {}
+        }
+        return json.data as T;
+      }
+    }
+  } catch (apiErr) {
+    // ignore
+  }
+
   // 2. Second fallback to localStorage mirror
   if (typeof window !== "undefined") {
     try {
