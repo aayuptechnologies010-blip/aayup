@@ -119,7 +119,7 @@ const Navigation = () => {
     { name: "Services", href: "/services" },
     { name: "Projects", href: "/projects" },
     { name: "About Us", href: "/about" },
-    { name: "Our Team", href: "/about#team" },
+    { name: "Our Team", href: "/team" },
     { name: "Careers", href: "/careers" },
     { name: "Contact", href: "/contact" },
   ];

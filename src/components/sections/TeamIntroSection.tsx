@@ -142,21 +142,18 @@ export default function TeamIntroSection() {
           <div className="absolute top-2 right-1/4 w-5 h-5 rounded-full bg-[#0066FF] shadow-md pointer-events-none hidden md:block" />
 
           {/* Section Header Matching Mockup */}
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14 relative z-10">
-            <div className="inline-flex items-center gap-3 mb-3">
-              <span className="w-12 h-[1.5px] bg-[#0066FF]" />
-              <span className="text-xs sm:text-sm uppercase tracking-widest font-extrabold text-[#0066FF]">
+          <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-10 relative z-10">
+            <div className="inline-flex items-center gap-2 mb-2">
+              <span className="w-8 h-[1.5px] bg-[#0066FF]" />
+              <span className="text-xs uppercase tracking-widest font-extrabold text-[#0066FF]">
                 OUR TEAM
               </span>
-              <span className="w-12 h-[1.5px] bg-[#0066FF]" />
+              <span className="w-8 h-[1.5px] bg-[#0066FF]" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1220] dark:text-white tracking-tight">
-              Meet Our <span className="text-[#0066FF] dark:text-[#3B82F6]">Amazing Team</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#0B1220] dark:text-white tracking-tight">
+              Meet Our <span className="text-[#0066FF] dark:text-[#3B82F6]">Team</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 max-w-xl leading-relaxed">
-              A group of passionate professionals working together to deliver innovative solutions and create real value for our clients.
-            </p>
           </div>
         </div>
 
@@ -372,14 +369,9 @@ export default function TeamIntroSection() {
               <span>CULTURE & OPPORTUNITIES</span>
             </div>
 
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0B1220] dark:text-white tracking-tight">
-              Work With Passionate People.{" "}
-              <span className="text-[#1769AA] dark:text-[#2D86C9]">Grow Your Career.</span>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0B1220] dark:text-white tracking-tight">
+              Work With Us. <span className="text-[#1769AA] dark:text-[#2D86C9]">Grow Your Career.</span>
             </h3>
-
-            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base max-w-2xl mt-3 mb-8">
-              Learn new skills, enjoy continuous growth, work on real client projects, and experience a supportive and collaborative environment at AAYUP Technologies.
-            </p>
 
             {/* Banner Mockup with Floating Animation */}
             <motion.div

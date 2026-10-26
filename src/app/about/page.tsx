@@ -4,7 +4,6 @@ import AboutSection from "@/components/sections/AboutSection";
 import TrustGuaranteesStrip from "@/components/sections/TrustGuaranteesStrip";
 import AgencyComparisonSection from "@/components/sections/AgencyComparisonSection";
 import TechStackExplorer from "@/components/sections/TechStackExplorer";
-import TeamIntroSection from "@/components/sections/TeamIntroSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import FinalCTASection from "@/components/sections/FinalCTASection";
 import Footer from "@/components/Footer";
@@ -25,7 +24,6 @@ export default function AboutPage() {
       <TrustGuaranteesStrip />
       <AgencyComparisonSection />
       <TechStackExplorer />
-      <TeamIntroSection />
       <TestimonialsSection />
       <FinalCTASection />
       <Footer />

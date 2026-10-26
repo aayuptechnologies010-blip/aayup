@@ -179,21 +179,19 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="glass-card p-8 transition-transform duration-300 hover:-translate-y-3 hover:scale-105"
+            className="glass-card p-6 sm:p-8 transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <h3 className="text-2xl font-bold mb-4 gradient-text">Who We Are</h3>
-            <p className="text-foreground/80 leading-relaxed">
-              At Aayup Technologies Pvt. Ltd., we are a dynamic team of passionate developers and designers
-              committed to delivering innovative digital solutions. With a focus on excellence and a
-              user-centric approach, we transform ideas into impactful web and mobile applications.
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 gradient-text">Who We Are</h3>
+            <p className="text-foreground/80 leading-relaxed text-sm sm:text-base">
+              A high-impact software engineering agency delivering custom web platforms, cloud architecture, and mobile applications for forward-thinking enterprises.
             </p>
-            <div className="mt-6 flex items-center space-x-3">
+            <div className="mt-5 flex items-center space-x-3">
               <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                 <Users className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-semibold">Team</p>
-                <p className="text-foreground/70 text-sm">15+ members across design & engineering</p>
+                <p className="text-sm font-semibold">Specialized Team</p>
+                <p className="text-foreground/70 text-xs">Architects, engineers & UI designers</p>
               </div>
             </div>
           </motion.div>
@@ -203,13 +201,11 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="glass-card p-8 transition-transform duration-300 hover:-translate-y-3 hover:scale-105"
+            className="glass-card p-6 sm:p-8 transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <h3 className="text-2xl font-bold mb-4 gradient-text">Our Mission</h3>
-            <p className="text-foreground/80 leading-relaxed">
-              Our mission is to empower businesses by providing cutting-edge technology solutions that
-              drive growth and efficiency. We bridge the gap between technology and user experience,
-              ensuring seamless digital transformation.
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 gradient-text">Our Mission</h3>
+            <p className="text-foreground/80 leading-relaxed text-sm sm:text-base">
+              To empower modern businesses with resilient, scalable code and intuitive digital experiences that accelerate real growth and operational efficiency.
             </p>
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import TrustGuaranteesStrip from "@/components/sections/TrustGuaranteesStrip";
+import DirectorsSection from "@/components/sections/DirectorsSection";
 import FeaturedProjectsSection from "@/components/sections/FeaturedProjectsSection";
 import ServicesOverviewSection from "@/components/sections/ServicesOverviewSection";
 import TechStackExplorer from "@/components/sections/TechStackExplorer";
@@ -27,6 +28,9 @@ export default function HomePage() {
 
       {/* SECTION 3 — 5-Point Client Protection Guarantee Strip */}
       <TrustGuaranteesStrip />
+
+      {/* SECTION 3.5 — Board of Directors (Dynamic Zig-Zag Showcase) */}
+      <DirectorsSection />
 
       {/* SECTION 4 — Featured Projects */}
       <FeaturedProjectsSection />
