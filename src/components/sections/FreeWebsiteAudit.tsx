@@ -37,7 +37,7 @@ export default function FreeWebsiteAudit() {
             : "Complete Modern Redesign"
         }`
       );
-      window.open(`https://wa.me/918382984709?text=${msg}`, "_blank");
+      window.open(`https://wa.me/917030839883?text=${msg}`, "_blank");
     }, 1200);
   };
 

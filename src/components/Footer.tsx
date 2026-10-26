@@ -126,7 +126,7 @@ const Footer = () => {
                 <Mail className="w-4 h-4 text-slate-300 group-hover:text-white" />
               </a>
               <a
-                href="https://wa.me/918382984709"
+                href="https://wa.me/917030839883"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 bg-white/5 hover:bg-emerald-600 border border-white/10 rounded-lg flex items-center justify-center transition-all group"
@@ -147,10 +147,10 @@ const Footer = () => {
               </p>
               <p>
                 <a
-                  href="tel:+918382984709"
+                  href="tel:+917030839883"
                   className="hover:text-white transition-colors"
                 >
-                  +91 83829 84709
+                  +91 70308 39883
                 </a>
               </p>
               <div className="pt-2 text-slate-400 border-t border-white/10 leading-relaxed">

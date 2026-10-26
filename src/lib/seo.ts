@@ -6,7 +6,7 @@ export const siteConfig = {
   description: 'Leading IT company providing Web Development, Mobile Apps, UI/UX Design, Cloud Solutions, Enterprise Software & AI Services.',
   url: 'https://www.aayuptechnologies.com',
   ogImage: 'https://www.aayuptechnologies.com/og_image.png',
-  phone: '+91-8382984709',
+  phone: '+91-7030839883',
   email: 'aayup.technologies.010@gmail.com',
   address: {
     street: 'Room No. A/302, Gajanan Apartment, Near Pathak School, Sahakar Nagar, Virar East',

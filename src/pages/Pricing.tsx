@@ -211,7 +211,7 @@ const Pricing = () => {
                   <li>6 months Technical Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Basic Website plan (₹10,000). Please share next steps.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Basic Website plan (₹10,000). Please share next steps.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -245,7 +245,7 @@ const Pricing = () => {
                   <li>6 months Priority Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Professional Website plan (₹15,000). Please share next steps.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Professional Website plan (₹15,000). Please share next steps.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -275,7 +275,7 @@ const Pricing = () => {
                   <li>1 Year Premium Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the E-commerce Website plan (₹20,000). Please share next steps.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the E-commerce Website plan (₹20,000). Please share next steps.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -308,7 +308,7 @@ const Pricing = () => {
                   <li>Weekly performance check-ins</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Basic package (₹7,000). Please share details.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Basic package (₹7,000). Please share details.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -335,7 +335,7 @@ const Pricing = () => {
                   <li>Bi-weekly reports</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Standard package (₹10,000). Please share details.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Standard package (₹10,000). Please share details.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -362,7 +362,7 @@ const Pricing = () => {
                   <li>Dedicated account manager</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Premium package (₹12,000). Please share details.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Digital Marketing Premium package (₹12,000). Please share details.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -394,7 +394,7 @@ const Pricing = () => {
                   <li>Basic graphics & captions</li>
                   <li>Community monitoring</li>
                 </ul>
-                <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Basic (₹8,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Basic (₹8,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   <Button className="w-full">Contact via WhatsApp</Button>
                 </a>
               </Card>
@@ -419,7 +419,7 @@ const Pricing = () => {
                   <li>Campaigns & analytics</li>
                   <li>Monthly growth reporting</li>
                 </ul>
-                <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Growth (₹12,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Growth (₹12,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   <Button className="w-full">Contact via WhatsApp</Button>
                 </a>
               </Card>
@@ -441,7 +441,7 @@ const Pricing = () => {
                   <li>Weekly optimizations</li>
                   <li>Dedicated community manager</li>
                 </ul>
-                <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Premium (₹15,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Social Media Management - Premium (₹15,000). Please share package details.")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   <Button className="w-full">Contact via WhatsApp</Button>
                 </a>
               </Card>
@@ -472,7 +472,7 @@ const Pricing = () => {
                   <li>1 Year Technical Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Starter App plan (₹26,000). Please share details.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Starter App plan (₹26,000). Please share details.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -504,7 +504,7 @@ const Pricing = () => {
                   <li>1 Year Priority Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Business App plan (₹45,000). Please share next steps.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Business App plan (₹45,000). Please share next steps.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -532,7 +532,7 @@ const Pricing = () => {
                   <li>1 Year Premium Support</li>
                 </ul>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in the Advanced App plan (₹80,000). Please share next steps.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in the Advanced App plan (₹80,000). Please share next steps.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -561,7 +561,7 @@ const Pricing = () => {
                 <li>Monthly Performance Reports</li>
               </ul>
               <a
-                href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in an Enterprise All-in-One custom quote (including Business Advertisement, Consulting, Content Writing, Communication Training). Please get in touch.")}`}
+                href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in an Enterprise All-in-One custom quote (including Business Advertisement, Consulting, Content Writing, Communication Training). Please get in touch.")}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -584,7 +584,7 @@ const Pricing = () => {
               <div className="flex gap-3">
                 <Button onClick={(e) => { e.stopPropagation(); openPlan("additional-services"); }}>View Details</Button>
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I want to enquire about additional services (Business Advertisement, Consulting, Content Writing, Communication Training). Please connect.")}`}
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I want to enquire about additional services (Business Advertisement, Consulting, Content Writing, Communication Training). Please connect.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -623,7 +623,7 @@ const Pricing = () => {
                         <li>25% lower customer acquisition cost</li>
                         <li>Real-time campaign adjustments</li>
                       </ul>
-                      <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Business Advertisement services. Please share options and pricing.")}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Business Advertisement services. Please share options and pricing.")}`} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full">Enquire via WhatsApp</Button>
                       </a>
                     </div>
@@ -654,7 +654,7 @@ const Pricing = () => {
                           <li>Dedicated community manager</li>
                         </ul>
                       </div>
-                      <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Social Media Management (Basic/ Growth/ Premium). Please share package details and pricing.")}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Social Media Management (Basic/ Growth/ Premium). Please share package details and pricing.")}`} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full">Enquire via WhatsApp</Button>
                       </a>
                     </div>
@@ -678,7 +678,7 @@ const Pricing = () => {
                         <li>Off-page strategies and outreach</li>
                         <li>Monthly performance reports</li>
                       </ul>
-                      <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in SEO Services. Please share scope and pricing.")}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in SEO Services. Please share scope and pricing.")}`} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full">Enquire via WhatsApp</Button>
                       </a>
                     </div>
@@ -701,7 +701,7 @@ const Pricing = () => {
                         <li>Print-ready CMYK files</li>
                         <li>Digital QR-enabled versions for sharing</li>
                       </ul>
-                      <a href={`https://wa.me/918382984709?text=${encodeURIComponent("Hello, I'm interested in Business Card Design. Please share design options and pricing.")}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`https://wa.me/917030839883?text=${encodeURIComponent("Hello, I'm interested in Business Card Design. Please share design options and pricing.")}`} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full">Enquire via WhatsApp</Button>
                       </a>
                     </div>
@@ -736,7 +736,7 @@ const Pricing = () => {
             <h3 className="text-xl font-semibold mb-3">Ready to launch your next big idea?</h3>
             <p className="text-foreground/70 mb-6">Let's discuss your ideas and create something amazing together. We're just a message away.</p>
             <a
-              href={`https://wa.me/918382984709?text=${encodeURIComponent("Hi, I'd like to discuss a project. Please connect.")}`}
+              href={`https://wa.me/917030839883?text=${encodeURIComponent("Hi, I'd like to discuss a project. Please connect.")}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -765,7 +765,7 @@ const Pricing = () => {
           </div>
           <DialogFooter>
             {selectedPlan && (
-              <a href={`https://wa.me/918382984709?text=${encodeURIComponent(PLAN_DETAILS[selectedPlan].waText)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+              <a href={`https://wa.me/917030839883?text=${encodeURIComponent(PLAN_DETAILS[selectedPlan].waText)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                 <Button>Contact via WhatsApp</Button>
               </a>
             )}
@@ -796,7 +796,7 @@ const Pricing = () => {
             </div>
 
             <div className="mt-6 flex justify-end">
-              <a href={`https://wa.me/918382984709?text=${encodeURIComponent(PLAN_DETAILS["additional-services"].waText)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+              <a href={`https://wa.me/917030839883?text=${encodeURIComponent(PLAN_DETAILS["additional-services"].waText)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                 <Button>Contact via WhatsApp</Button>
               </a>
             </div>

@@ -269,7 +269,7 @@ const Navigation = () => {
             <div className="flex items-center gap-3 ml-auto">
               {/* Phone / WhatsApp */}
               <a
-                href="https://wa.me/918382984709?text=Hello%20Aayup%20Technologies"
+                href="https://wa.me/917030839883?text=Hello%20Aayup%20Technologies"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-slate-200 hover:text-emerald-400 transition-colors font-medium"
@@ -277,7 +277,7 @@ const Navigation = () => {
                 <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center">
                   <MessageCircle className="w-3.5 h-3.5" />
                 </span>
-                <span className="hidden md:inline font-mono">+91 8382984709</span>
+                <span className="hidden md:inline font-mono">+91 7030839883</span>
               </a>
 
               <div className="w-[1px] h-3.5 bg-white/20 hidden sm:block" />
@@ -286,7 +286,7 @@ const Navigation = () => {
             <div className="flex items-center gap-2">
               {/* WhatsApp */}
               <a
-                href="https://wa.me/918382984709?text=Hello%20Aayup%20Technologies"
+                href="https://wa.me/917030839883?text=Hello%20Aayup%20Technologies"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"

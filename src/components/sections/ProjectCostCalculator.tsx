@@ -280,7 +280,7 @@ export default function ProjectCostCalculator() {
               {/* Direct Actions */}
               <div className="space-y-3 pt-2">
                 <a
-                  href={`https://wa.me/918382984709?text=${whatsappMessage}`}
+                  href={`https://wa.me/917030839883?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-block"

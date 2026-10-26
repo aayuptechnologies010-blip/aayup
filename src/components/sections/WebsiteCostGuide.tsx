@@ -216,7 +216,7 @@ export default function WebsiteCostGuide() {
               {/* Bottom CTA */}
               <div className="pt-6 mt-6 border-t border-slate-100">
                 <a
-                  href={`https://wa.me/918382984709?text=${encodeURIComponent(
+                  href={`https://wa.me/917030839883?text=${encodeURIComponent(
                     `Hello Aayup Technologies! I am interested in the ${tier.type} (${tier.priceRange}). Please share a detailed quote and roadmap.`
                   )}`}
                   target="_blank"

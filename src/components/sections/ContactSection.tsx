@@ -190,7 +190,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-bold mb-1">WhatsApp</h4>
-                    <a href="https://wa.me/918382984709" className="text-foreground/70 hover:text-primary transition-colors text-sm" target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/917030839883" className="text-foreground/70 hover:text-primary transition-colors text-sm" target="_blank" rel="noopener noreferrer">
                       Chat with us instantly
                     </a>
                   </div>
@@ -354,7 +354,7 @@ const ContactSection = () => {
                       <Input
                         id="contact-phone"
                         type="tel"
-                        placeholder="+91 8382984709"
+                        placeholder="+91 7030839883"
                         value={contactFormData.phone}
                         onChange={(e) => setContactFormData({ ...contactFormData, phone: e.target.value })}
                         disabled={isSubmitting}
@@ -438,7 +438,7 @@ const ContactSection = () => {
                       <Input
                         id="query-phone"
                         type="tel"
-                        placeholder="+91 8382984709"
+                        placeholder="+91 7030839883"
                         value={queryFormData.phone}
                         onChange={(e) => setQueryFormData({ ...queryFormData, phone: e.target.value })}
                         disabled={isSubmitting}

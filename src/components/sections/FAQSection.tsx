@@ -242,7 +242,7 @@ export default function FAQSection() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href="https://wa.me/918382984709?text=Hi%20AAYUP%20Team!%20I%20have%20a%20specific%20project%20question."
+              href="https://wa.me/917030839883?text=Hi%20AAYUP%20Team!%20I%20have%20a%20specific%20project%20question."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-all shadow-md shadow-emerald-600/20"

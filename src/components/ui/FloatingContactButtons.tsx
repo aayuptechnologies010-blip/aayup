@@ -14,7 +14,7 @@ export default function FloatingContactButtons() {
     return () => clearTimeout(timer);
   }, []);
 
-  const phoneNumber = "918382984709";
+  const phoneNumber = "917030839883";
   const defaultMessage = encodeURIComponent(
     "Hi AAYUP Technologies Team! I visited your website and would like to discuss a project / get a quick quote."
   );

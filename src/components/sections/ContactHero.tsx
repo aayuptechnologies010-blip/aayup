@@ -76,7 +76,7 @@ export default function ContactHero() {
                 </button>
               </a>
               <a
-                href="https://wa.me/918382984709?text=Hello%20Aayup%20Technologies,%20I%20would%20like%20to%20discuss%20a%20project."
+                href="https://wa.me/917030839883?text=Hello%20Aayup%20Technologies,%20I%20would%20like%20to%20discuss%20a%20project."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -132,7 +132,7 @@ export default function ContactHero() {
                   <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-100 hover:bg-blue-50/40 transition-colors">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Direct WhatsApp</span>
                     <span className="text-xl sm:text-2xl font-black text-emerald-600 block mt-0.5">Instant</span>
-                    <span className="text-[11px] text-slate-500 font-medium">+91 83829 84709</span>
+                    <span className="text-[11px] text-slate-500 font-medium">+91 70308 39883</span>
                   </div>
                 </div>
 
@@ -157,7 +157,7 @@ export default function ContactHero() {
                   </a>
 
                   <a
-                    href="tel:+918382984709"
+                    href="tel:+917030839883"
                     className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200/90 hover:border-emerald-500 shadow-sm hover:shadow-md transition-all group"
                   >
                     <div className="flex items-center gap-3">
@@ -166,7 +166,7 @@ export default function ContactHero() {
                       </div>
                       <div>
                         <span className="text-xs font-bold text-slate-800 block group-hover:text-emerald-700 transition-colors">
-                          +91 83829 84709
+                          +91 70308 39883
                         </span>
                         <span className="text-[10px] text-slate-400">Direct phone & WhatsApp call</span>
                       </div>
