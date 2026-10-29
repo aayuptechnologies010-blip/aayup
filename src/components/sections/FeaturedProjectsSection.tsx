@@ -1,40 +1,40 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
+import { PORTFOLIO_PROJECTS, ProjectItem } from "@/data/projectsData";
+import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 export default function FeaturedProjectsSection() {
-  const projects = [
-    {
-      id: "ecommerce",
-      title: "Enterprise E-Commerce Platform",
-      category: "Web & Custom Software",
-      description:
-        "Full-stack digital commerce platform engineered with Next.js, Node.js, and MongoDB featuring real-time inventory synchronization, order management, and multi-tier payment gateways.",
-      image: "/project-web-development.webp",
-      tags: ["React / Next.js", "Node.js", "MongoDB", "Stripe API"],
-    },
-    {
-      id: "bhoommetra",
-      title: "Bhoommetra Mobile & IoT Solution",
-      category: "Mobile Application & IoT",
-      description:
-        "Agricultural intelligence platform delivering automated soil parameter telemetry, mobile crop analytics, and predictive agronomy insights for farm operators.",
-      image: "/project-mobile-app.webp",
-      tags: ["Flutter", "IoT Telemetry", "AI Analytics", "Cloud Services"],
-    },
-    {
-      id: "ai-dev-tools",
-      title: "Intelligent Business Automation & AI Suite",
-      category: "AI & Business Automation",
-      description:
-        "High-performance operational dashboard featuring automated code generation, machine learning telemetry, and workflow optimization modules for engineering teams.",
-      image: "/project-ai-dashboard.webp",
-      tags: ["Python", "Machine Learning", "FastAPI", "React"],
-    },
-  ];
+  const [projects, setProjects] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDynamicProjects = () => {
+      getDynamicData<ProjectItem[]>(DYNAMIC_KEYS.PROJECTS, PORTFOLIO_PROJECTS).then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setProjects(data);
+        }
+      });
+    };
+
+    loadDynamicProjects();
+    window.addEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
+    window.addEventListener("portfolio_projects_updated", loadDynamicProjects);
+    window.addEventListener("storage", loadDynamicProjects);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
+      window.removeEventListener("portfolio_projects_updated", loadDynamicProjects);
+      window.removeEventListener("storage", loadDynamicProjects);
+    };
+  }, []);
+
+  // Display top 3-6 featured projects
+  const displayProjects = projects.slice(0, 6);
 
   return (
     <section id="projects" className="py-12 md:py-16 bg-white dark:bg-[#0B1220]">
@@ -68,7 +68,7 @@ export default function FeaturedProjectsSection() {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -81,10 +81,13 @@ export default function FeaturedProjectsSection() {
                 {/* Thumbnail */}
                 <div className="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <img
-                    src={project.image}
+                    src={project.image || "/project-web-development.webp"}
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
+                    onError={(e: any) => {
+                      e.currentTarget.src = "/project-web-development.webp";
+                    }}
                   />
                   <div className="absolute top-3 left-3 bg-[#0B1220]/80 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-md font-medium">
                     {project.category}
@@ -93,35 +96,40 @@ export default function FeaturedProjectsSection() {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0B1220] dark:text-white group-hover:text-[#1769AA] dark:group-hover:text-[#2D86C9] transition-colors">
+                  <h3 className="text-xl font-bold text-[#0B1220] dark:text-white group-hover:text-[#1769AA] dark:group-hover:text-[#2D86C9] transition-colors leading-snug">
                     {project.title}
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm mt-2.5 leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-1.5 mt-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs bg-white dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 px-2.5 py-1 rounded-md font-medium"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
 
-              {/* Card Footer Link */}
-              <div className="px-6 pb-6 pt-2">
+              {/* Card Footer Link / Action */}
+              <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-slate-200/60 dark:border-white/10 mt-4">
+                {project.demoUrl ? (
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#1769AA] hover:bg-[#0D4F85] text-white text-xs font-bold shadow-sm transition-all hover:scale-105"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Live Demo
+                  </a>
+                ) : (
+                  <Link
+                    to={`/ProjectDetail?id=${project.id}`}
+                    className="inline-flex items-center text-xs font-bold text-[#1769AA] dark:text-[#2D86C9] hover:underline"
+                  >
+                    View Project
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </Link>
+                )}
+
                 <Link
-                  to={`/ProjectDetail?id=${project.id}`}
-                  className="inline-flex items-center text-sm font-semibold text-[#1769AA] dark:text-[#2D86C9] hover:underline"
+                  to={`/contact?subject=${encodeURIComponent("Enquiry for " + project.title)}`}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#1769AA] transition-colors"
                 >
-                  View Project
-                  <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+                  Enquiry
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
             </motion.div>

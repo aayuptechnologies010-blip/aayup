@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
+import ClientProjectsTicker from "@/components/sections/ClientProjectsTicker";
 import TrustGuaranteesStrip from "@/components/sections/TrustGuaranteesStrip";
 import DirectorsSection from "@/components/sections/DirectorsSection";
 import FeaturedProjectsSection from "@/components/sections/FeaturedProjectsSection";
@@ -25,6 +26,9 @@ export default function HomePage() {
 
       {/* SECTION 2 — Hero with Animated Banner Slider */}
       <HeroSection />
+
+      {/* Hero Sub-Ticker: Continuous Fast Running Client Projects Marquee with Hover Pause */}
+      <ClientProjectsTicker />
 
       {/* SECTION 3 — 5-Point Client Protection Guarantee Strip */}
       <TrustGuaranteesStrip />
