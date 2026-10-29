@@ -27,9 +27,6 @@ export default function HomePage() {
       {/* SECTION 2 — Hero with Animated Banner Slider */}
       <HeroSection />
 
-      {/* Hero Sub-Ticker: Continuous Fast Running Client Projects Marquee with Hover Pause */}
-      <ClientProjectsTicker />
-
       {/* SECTION 3 — 5-Point Client Protection Guarantee Strip */}
       <TrustGuaranteesStrip />
 
