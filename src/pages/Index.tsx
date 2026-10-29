@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
+import ClientProjectsTicker from "@/components/sections/ClientProjectsTicker";
 import TrustGuaranteesStrip from "@/components/sections/TrustGuaranteesStrip";
 import ServicesOverviewSection from "@/components/sections/ServicesOverviewSection";
 import TechStackExplorer from "@/components/sections/TechStackExplorer";
@@ -20,6 +21,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/30">
       <Navigation />
       <HeroSection />
+      <ClientProjectsTicker />
       <TrustGuaranteesStrip />
       <ProjectCostCalculator />
       <WebsiteCostGuide />
