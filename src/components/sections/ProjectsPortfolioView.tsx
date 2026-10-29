@@ -17,7 +17,7 @@ import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
 const CATEGORIES = [
   "All Projects",
-  "Websites",
+  "Website",
   "Mobile Apps",
   "CRM / ERP",
   "AI & Automation",
