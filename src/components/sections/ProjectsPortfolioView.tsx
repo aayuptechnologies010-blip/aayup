@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink,
@@ -8,24 +8,46 @@ import {
   Sparkles,
   Layers,
   ChevronRight,
+  ChevronDown,
   Filter,
 } from "lucide-react";
-import { Link } from "@/lib/router-bridge";
+import { Link, useLocation } from "@/lib/router-bridge";
 import { Button } from "@/components/ui/button";
 import { PORTFOLIO_PROJECTS, ProjectItem } from "@/data/projectsData";
 import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
 
-const CATEGORIES = [
-  "All Projects",
-  "Website",
-  "Mobile Apps",
-  "CRM / ERP",
-  "AI & Automation",
-] as const;
-
 export default function ProjectsPortfolioView() {
+  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState<string>("All Projects");
   const [projectsList, setProjectsList] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
+
+  // Sync category or single product filter from URL search params (e.g. ?category=... or ?product=...)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(location.search || window.location.search);
+      const catParam = searchParams.get("category");
+      const prodParam = searchParams.get("product");
+
+      if (prodParam) {
+        setActiveCategory(`product:${prodParam}`);
+      } else if (catParam) {
+        setActiveCategory(catParam);
+      }
+
+      // Smooth scroll to portfolio-grid when category or product parameter is present
+      if (catParam || prodParam) {
+        setTimeout(() => {
+          const el = document.getElementById("portfolio-grid");
+          if (el) {
+            const nav = document.querySelector("nav");
+            const navH = nav ? nav.getBoundingClientRect().height : 80;
+            const y = el.getBoundingClientRect().top + window.scrollY - navH - 20;
+            window.scrollTo({ top: y, behavior: "smooth" });
+          }
+        }, 150);
+      }
+    }
+  }, [location.search]);
 
   useEffect(() => {
     let isMounted = true;
@@ -49,12 +71,30 @@ export default function ProjectsPortfolioView() {
     };
   }, []);
 
-  const filteredProjects =
-    activeCategory === "All Projects"
-      ? projectsList
-      : projectsList.filter(
-          (p) => p.category === activeCategory
-        );
+  // Dynamically extract all unique categories from projects + "Our Products"
+  const availableCategories = useMemo(() => {
+    const rawCategories = Array.from(
+      new Set(projectsList.map((p) => p.category).filter(Boolean))
+    );
+    return ["All Projects", "Our Products", ...rawCategories];
+  }, [projectsList]);
+
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === "All Projects") {
+      return projectsList;
+    }
+    if (activeCategory === "Our Products") {
+      return projectsList.filter((p) => p.isProduct);
+    }
+    if (activeCategory.startsWith("product:")) {
+      const pid = activeCategory.replace("product:", "");
+      const matched = projectsList.filter((p) => p.id === pid);
+      if (matched.length > 0) return matched;
+      // fallback to all products if specific id not found
+      return projectsList.filter((p) => p.isProduct);
+    }
+    return projectsList.filter((p) => p.category === activeCategory);
+  }, [activeCategory, projectsList]);
 
   return (
     <div className="bg-white text-[#0B1220]">
@@ -285,24 +325,48 @@ export default function ProjectsPortfolioView() {
               </h2>
             </div>
 
-            {/* Accessible Filter Buttons */}
-            <div className="flex flex-wrap items-center gap-2">
-              {CATEGORIES.map((cat) => {
-                const isSelected = activeCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-                      isSelected
-                        ? "bg-[#1769AA] text-white shadow-md shadow-[#1769AA]/25 scale-105"
-                        : "bg-[#F3F7FB] text-slate-700 hover:bg-slate-200/80 border border-slate-200/80"
-                    }`}
+            {/* Filter Dropdown + Quick Pills */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+              {/* Category Dropdown Select */}
+              <div className="relative min-w-[220px]">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 sm:hidden">
+                  Select Category:
+                </label>
+                <div className="relative">
+                  <select
+                    value={activeCategory.startsWith("product:") ? "Our Products" : activeCategory}
+                    onChange={(e) => setActiveCategory(e.target.value)}
+                    className="w-full appearance-none bg-white text-slate-800 border-2 border-slate-300 hover:border-[#1769AA] focus:border-[#1769AA] focus:ring-2 focus:ring-[#1769AA]/20 font-bold text-sm px-4 py-2.5 pr-10 rounded-xl transition-all shadow-sm cursor-pointer"
                   >
-                    {cat}
-                  </button>
-                );
-              })}
+                    {availableCategories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat === "Our Products" ? "⭐ Our Products" : cat}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Quick Pills for desktop/tablets */}
+              <div className="hidden lg:flex flex-wrap items-center gap-1.5 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+                {availableCategories.slice(0, 5).map((cat) => {
+                  const isSelected = activeCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setActiveCategory(cat)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        isSelected
+                          ? "bg-[#1769AA] text-white shadow-sm"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+                      }`}
+                    >
+                      {cat === "Our Products" ? "⭐ Products" : cat}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -334,8 +398,15 @@ export default function ProjectsPortfolioView() {
                           e.currentTarget.src = "/project-web-development.webp";
                         }}
                       />
-                      <div className="absolute top-3 left-3 bg-[#0B1220]/85 backdrop-blur-md text-white text-xs px-3 py-1 rounded-md font-medium">
-                        {project.category}
+                      <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+                        <div className="bg-[#0B1220]/85 backdrop-blur-md text-white text-xs px-3 py-1 rounded-md font-medium">
+                          {project.category}
+                        </div>
+                        {project.isProduct && (
+                          <div className="bg-amber-500 text-slate-950 font-black text-xs px-2.5 py-1 rounded-md shadow-md flex items-center gap-1 animate-pulse">
+                            ⭐ Product
+                          </div>
+                        )}
                       </div>
                     </div>
 

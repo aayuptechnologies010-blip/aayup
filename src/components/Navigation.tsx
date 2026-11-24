@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "@/lib/router-bridge";
-import { Menu, X, ChevronDown, User, Settings, LogOut, Phone, ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, User, Settings, LogOut, Phone, ArrowRight, MessageCircle, Sparkles, FolderGit2, Package, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "@/assets/aayup-logo.webp";
 import ThemeToggle from "./ThemeToggle";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { getDynamicData, DYNAMIC_KEYS } from "@/lib/dynamicDataService";
+import { PORTFOLIO_PROJECTS, ProjectItem } from "@/data/projectsData";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,10 +21,48 @@ const Navigation = () => {
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [navHeight, setNavHeight] = useState(80);
+  const [projectsList, setProjectsList] = useState<ProjectItem[]>(PORTFOLIO_PROJECTS);
+  const [isProjectsDropdownOpen, setIsProjectsDropdownOpen] = useState(false);
+  const [isProductsHovered, setIsProductsHovered] = useState(false);
+  const [mobileProjectsExpanded, setMobileProjectsExpanded] = useState(false);
+  const [mobileProductsExpanded, setMobileProductsExpanded] = useState(false);
+  const projectsDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Load dynamic projects and listen for live updates
+  useEffect(() => {
+    let isMounted = true;
+    const loadDynamicProjects = () => {
+      getDynamicData<ProjectItem[]>(DYNAMIC_KEYS.PROJECTS, PORTFOLIO_PROJECTS).then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setProjectsList(data);
+        }
+      });
+    };
+
+    loadDynamicProjects();
+    window.addEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
+    window.addEventListener("portfolio_projects_updated", loadDynamicProjects);
+    window.addEventListener("storage", loadDynamicProjects);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("aayup_dynamic_data_updated", loadDynamicProjects);
+      window.removeEventListener("portfolio_projects_updated", loadDynamicProjects);
+      window.removeEventListener("storage", loadDynamicProjects);
+    };
+  }, []);
+
+  // Compute unique categories and product items
+  const projectCategories = useMemo(() => {
+    return Array.from(new Set(projectsList.map((p) => p.category).filter(Boolean)));
+  }, [projectsList]);
+
+  const markedProducts = useMemo(() => {
+    return projectsList.filter((p) => p.isProduct);
+  }, [projectsList]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,7 +156,7 @@ const Navigation = () => {
   const publicNavItems = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
-    { name: "Projects", href: "/projects" },
+    { name: "Our Projects", href: "/projects" },
     { name: "About Us", href: "/about" },
     { name: "Our Team", href: "/team" },
     { name: "Careers", href: "/careers" },
@@ -349,8 +388,185 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => {
-              const active = isLinkActive(item.href);
+              const isProjects = item.name === "Our Projects";
+              const active = isProjects 
+                ? location.pathname === "/projects" || location.pathname.startsWith("/ProjectDetail")
+                : isLinkActive(item.href);
               const hasHash = item.href.includes("#");
+
+              if (isProjects) {
+                return (
+                  <div
+                    key={item.name}
+                    className="relative"
+                    onMouseEnter={() => {
+                      if (projectsDropdownTimeoutRef.current) {
+                        clearTimeout(projectsDropdownTimeoutRef.current);
+                      }
+                      setIsProjectsDropdownOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      projectsDropdownTimeoutRef.current = setTimeout(() => {
+                        setIsProjectsDropdownOpen(false);
+                        setIsProductsHovered(false);
+                      }, 200);
+                    }}
+                  >
+                    <Link
+                      to={item.href}
+                      className={`relative px-4 py-2 font-semibold transition-all rounded-lg text-sm flex items-center gap-1.5 ${
+                        active
+                          ? "text-[#1769AA] bg-[#1769AA]/10 shadow-sm"
+                          : "text-slate-700 hover:text-[#1769AA] hover:bg-slate-100/70"
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          isProjectsDropdownOpen ? "rotate-180 text-[#1769AA]" : "text-slate-400"
+                        }`}
+                      />
+                      {active && (
+                        <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-[#1769AA]" />
+                      )}
+                    </Link>
+
+                    {/* Desktop Dropdown Menu */}
+                    <AnimatePresence>
+                      {isProjectsDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          className="absolute left-0 top-full mt-1.5 w-64 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 z-50 overflow-visible"
+                        >
+                          <div className="px-3.5 pb-2 mb-1 border-b border-slate-100 flex items-center justify-between">
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                              Categories
+                            </span>
+                            <Link
+                              to="/projects"
+                              onClick={() => setIsProjectsDropdownOpen(false)}
+                              className="text-[11px] font-bold text-[#1769AA] hover:underline"
+                            >
+                              All Projects →
+                            </Link>
+                          </div>
+
+                          <div className="space-y-0.5 px-1.5">
+                            {projectCategories.map((cat) => (
+                              <Link
+                                key={cat}
+                                to={`/projects?category=${encodeURIComponent(cat)}`}
+                                onClick={() => setIsProjectsDropdownOpen(false)}
+                                className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-[#1769AA] hover:bg-[#1769AA]/10 transition-colors group"
+                              >
+                                <span className="group-hover:translate-x-0.5 transition-transform">
+                                  {cat}
+                                </span>
+                                <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 group-hover:bg-[#1769AA]/15 group-hover:text-[#1769AA]">
+                                  {projectsList.filter((p) => p.category === cat).length}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+
+                          {/* Our Products Section / Submenu Trigger */}
+                          {markedProducts.length > 0 && (
+                            <div className="mt-2 pt-2 border-t border-slate-100 px-1.5">
+                              <div
+                                className="relative"
+                                onMouseEnter={() => setIsProductsHovered(true)}
+                                onMouseLeave={() => setIsProductsHovered(false)}
+                              >
+                                <Link
+                                  to="/projects?category=Our%20Products"
+                                  onClick={() => {
+                                    setIsProjectsDropdownOpen(false);
+                                    setIsProductsHovered(false);
+                                  }}
+                                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                    isProductsHovered
+                                      ? "bg-gradient-to-r from-amber-500/15 to-orange-500/10 text-amber-700 shadow-sm"
+                                      : "text-amber-700 bg-amber-50 hover:bg-amber-100/70"
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                                    <span>Our Products</span>
+                                    <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded-full bg-amber-200 text-amber-800">
+                                      {markedProducts.length}
+                                    </span>
+                                  </div>
+                                  <ChevronRight
+                                    className={`w-3.5 h-3.5 text-amber-600 transition-transform ${
+                                      isProductsHovered ? "translate-x-0.5" : ""
+                                    }`}
+                                  />
+                                </Link>
+
+                                {/* Flyout Submenu for Products */}
+                                <AnimatePresence>
+                                  {isProductsHovered && (
+                                    <motion.div
+                                      initial={{ opacity: 0, x: -6, scale: 0.98 }}
+                                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                                      exit={{ opacity: 0, x: -4, scale: 0.98 }}
+                                      transition={{ duration: 0.15 }}
+                                      className="absolute left-[calc(100%+8px)] top-0 w-64 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-amber-200/80 p-2 z-50 space-y-1"
+                                    >
+                                      <div className="px-3 py-1 mb-1 border-b border-amber-100 flex items-center justify-between">
+                                        <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider">
+                                          Ready Products
+                                        </span>
+                                        <Link
+                                          to="/projects?category=Our%20Products"
+                                          onClick={() => {
+                                            setIsProjectsDropdownOpen(false);
+                                            setIsProductsHovered(false);
+                                          }}
+                                          className="text-[10px] font-bold text-amber-800 hover:underline"
+                                        >
+                                          View All →
+                                        </Link>
+                                      </div>
+
+                                      <div className="max-h-64 overflow-y-auto space-y-1 pr-1">
+                                        {markedProducts.map((prod) => (
+                                          <Link
+                                            key={prod.id}
+                                            to={`/projects?product=${encodeURIComponent(prod.id)}`}
+                                            onClick={() => {
+                                              setIsProjectsDropdownOpen(false);
+                                              setIsProductsHovered(false);
+                                            }}
+                                            className="block p-2 rounded-xl text-left hover:bg-amber-50/80 transition-colors group cursor-pointer"
+                                          >
+                                            <div className="text-xs font-bold text-slate-800 group-hover:text-amber-800 line-clamp-1 flex items-center gap-1.5">
+                                              <span>{prod.title}</span>
+                                            </div>
+                                            {prod.shortDescription && (
+                                              <p className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">
+                                                {prod.shortDescription}
+                                              </p>
+                                            )}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={item.name}
@@ -407,8 +623,130 @@ const Navigation = () => {
             >
               <div className="py-5 px-3 space-y-1.5">
                 {navItems.map((item, index) => {
-                  const active = isLinkActive(item.href);
+                  const isProjects = item.name === "Our Projects";
+                  const active = isProjects
+                    ? location.pathname === "/projects" || location.pathname.startsWith("/ProjectDetail")
+                    : isLinkActive(item.href);
                   const hasHash = item.href.includes("#");
+
+                  if (isProjects) {
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.25, delay: index * 0.04 }}
+                        className="rounded-xl overflow-hidden bg-slate-50/70 border border-slate-200/50"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setMobileProjectsExpanded(!mobileProjectsExpanded)}
+                          className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                            active
+                              ? "text-[#1769AA] bg-[#1769AA]/10 font-bold"
+                              : "text-slate-800 hover:text-[#1769AA]"
+                          }`}
+                        >
+                          <span className="flex items-center gap-2">
+                            <span>{item.name}</span>
+                          </span>
+                          <ChevronDown
+                            className={`w-4 h-4 text-slate-500 transition-transform ${
+                              mobileProjectsExpanded ? "rotate-180 text-[#1769AA]" : ""
+                            }`}
+                          />
+                        </button>
+
+                        <AnimatePresence>
+                          {mobileProjectsExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="px-3 pb-3 pt-1 space-y-1"
+                            >
+                              <Link
+                                to="/projects"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block px-3 py-2 rounded-lg text-xs font-bold text-[#1769AA] bg-white border border-[#1769AA]/20"
+                              >
+                                🌟 View All Projects
+                              </Link>
+
+                              <div className="pt-1.5 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider px-2">
+                                Categories
+                              </div>
+                              {projectCategories.map((cat) => (
+                                <Link
+                                  key={cat}
+                                  to={`/projects?category=${encodeURIComponent(cat)}`}
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 bg-white/60 hover:bg-white hover:text-[#1769AA]"
+                                >
+                                  <span>{cat}</span>
+                                  <span className="text-[10px] text-slate-400">
+                                    {projectsList.filter((p) => p.category === cat).length}
+                                  </span>
+                                </Link>
+                              ))}
+
+                              {/* Mobile Products Accordion */}
+                              {markedProducts.length > 0 && (
+                                <div className="mt-2 pt-2 border-t border-slate-200/80">
+                                  <button
+                                    type="button"
+                                    onClick={() => setMobileProductsExpanded(!mobileProductsExpanded)}
+                                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold text-amber-800 bg-amber-50/90"
+                                  >
+                                    <span className="flex items-center gap-1.5">
+                                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                                      <span>Our Products ({markedProducts.length})</span>
+                                    </span>
+                                    <ChevronDown
+                                      className={`w-3.5 h-3.5 text-amber-700 transition-transform ${
+                                        mobileProductsExpanded ? "rotate-180" : ""
+                                      }`}
+                                    />
+                                  </button>
+
+                                  <AnimatePresence>
+                                    {mobileProductsExpanded && (
+                                      <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="pt-1.5 space-y-1 pl-2"
+                                      >
+                                        <Link
+                                          to="/projects?category=Our%20Products"
+                                          onClick={() => setIsMobileMenuOpen(false)}
+                                          className="block px-2.5 py-1.5 rounded text-[11px] font-bold text-amber-900 bg-amber-100/70"
+                                        >
+                                          View All Products →
+                                        </Link>
+                                        {markedProducts.map((prod) => (
+                                          <Link
+                                            key={prod.id}
+                                            to={`/projects?product=${encodeURIComponent(prod.id)}`}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="block px-2.5 py-1.5 rounded text-xs text-slate-700 bg-white/80 hover:bg-amber-50"
+                                          >
+                                            <div className="font-semibold line-clamp-1">{prod.title}</div>
+                                          </Link>
+                                        ))}
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  }
+
                   return (
                     <motion.div
                       key={item.name}

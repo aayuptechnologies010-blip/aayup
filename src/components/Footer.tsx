@@ -21,7 +21,19 @@ const Footer = () => {
             <p className="text-slate-300 text-sm leading-relaxed max-w-sm">
               AAYUP Technologies Pvt. Ltd. is a full-service software development company building modern web applications, scalable mobile apps, custom enterprise software, and AI solutions.
             </p>
-            <div className="pt-2 text-xs text-slate-400">
+            <div className="pt-2 text-xs text-slate-300">
+              <span className="text-slate-400">Digital Marketing Division:</span>{" "}
+              <a
+                href="https://www.uniqomedia.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#2D86C9] hover:text-white font-semibold inline-flex items-center gap-0.5 underline underline-offset-2 transition-colors"
+              >
+                Uniqo Media
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+            <div className="text-xs text-slate-400">
               CIN / Reg. Registered Software Engineering Agency
             </div>
           </div>

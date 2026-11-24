@@ -89,8 +89,15 @@ export default function FeaturedProjectsSection() {
                       e.currentTarget.src = "/project-web-development.webp";
                     }}
                   />
-                  <div className="absolute top-3 left-3 bg-[#0B1220]/80 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-md font-medium">
-                    {project.category}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+                    <div className="bg-[#0B1220]/80 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-md font-medium">
+                      {project.category}
+                    </div>
+                    {project.isProduct && (
+                      <div className="bg-amber-500 text-slate-950 font-black text-xs px-2 py-0.5 rounded-md shadow-md flex items-center gap-1">
+                        ⭐ Product
+                      </div>
+                    )}
                   </div>
                 </div>
 

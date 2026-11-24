@@ -1,7 +1,8 @@
 export interface ProjectItem {
   id: string;
   title: string;
-  category: "Websites" | "Mobile Apps" | "CRM / ERP" | "AI & Automation";
+  category: string;
+  isProduct?: boolean;
   shortDescription: string;
   fullDescription: string;
   image: string;
