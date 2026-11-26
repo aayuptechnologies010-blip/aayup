@@ -16,7 +16,7 @@ export default function InitialLoader() {
       const timer = setTimeout(() => {
         setLoading(false);
         sessionStorage.setItem("aayup_has_loaded", "true");
-      }, 2000);
+      }, 600);
 
       return () => clearTimeout(timer);
     }

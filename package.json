@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev --webpack -p 3000",
+    "dev": "next dev --webpack",
     "build": "next build",
-    "start": "next start -p 3000",
-    "dev:turbo": "next dev -p 3000",
+    "start": "next start",
+    "dev:turbo": "next dev",
     "dev:vite": "vite --host 127.0.0.1 --port 5173",
     "build:vite": "vite build",
     "lint": "eslint ."

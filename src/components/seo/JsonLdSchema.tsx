@@ -59,6 +59,57 @@ export default function JsonLdSchema() {
       opens: "09:00",
       closes: "19:00",
     },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Software & Digital Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Web Application Development",
+            description: "High-performance full stack web applications built with Next.js, React, and Node.js.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Mobile App Development",
+            description: "Custom native & cross-platform Android and iOS applications.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Enterprise CRM & ERP Systems",
+            description: "Bespoke business automation, CRM dashboards, and cloud ERP solutions.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI & Workflow Automation",
+            description: "Custom AI integrations, intelligent chatbots, and process automation.",
+          },
+        },
+      ],
+    },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AAYUP Technologies",
+    alternateName: siteConfig.name,
+    url: siteConfig.url,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteConfig.url}/projects?category={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -70,6 +121,10 @@ export default function JsonLdSchema() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
     </>
   );

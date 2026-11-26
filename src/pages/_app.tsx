@@ -12,7 +12,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <Providers>
       <ScrollProgressBar />
       <Component {...pageProps} />
-      <RecentActivityToast />
       <FloatingContactButtons />
 
       {/* Official Tawk.to Live Chat Script */}

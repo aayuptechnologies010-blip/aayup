@@ -53,7 +53,6 @@ export default function RootLayout({
           <PageTransitionLoader />
           <ScrollProgressBar />
           {children}
-          <RecentActivityToast />
           <FloatingContactButtons />
         </Providers>
 

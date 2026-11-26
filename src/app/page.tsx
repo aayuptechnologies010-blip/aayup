@@ -1,22 +1,48 @@
+import dynamic from "next/dynamic";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
-import ClientProjectsTicker from "@/components/sections/ClientProjectsTicker";
 import TrustGuaranteesStrip from "@/components/sections/TrustGuaranteesStrip";
 import DirectorsSection from "@/components/sections/DirectorsSection";
 import FeaturedProjectsSection from "@/components/sections/FeaturedProjectsSection";
 import ServicesOverviewSection from "@/components/sections/ServicesOverviewSection";
-import TechStackExplorer from "@/components/sections/TechStackExplorer";
-import ProjectCostCalculator from "@/components/sections/ProjectCostCalculator";
-import WebsiteCostGuide from "@/components/sections/WebsiteCostGuide";
-import AgencyComparisonSection from "@/components/sections/AgencyComparisonSection";
-import FreeWebsiteAudit from "@/components/sections/FreeWebsiteAudit";
-import WhyChooseSection from "@/components/sections/WhyChooseSection";
-import HowWeWorkSection from "@/components/sections/HowWeWorkSection";
-import TeamIntroSection from "@/components/sections/TeamIntroSection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import FAQSection from "@/components/sections/FAQSection";
-import FinalCTASection from "@/components/sections/FinalCTASection";
-import Footer from "@/components/Footer";
+
+// Lazy-load heavy below-the-fold interactive components to boost Initial Load & TTI
+const TechStackExplorer = dynamic(() => import("@/components/sections/TechStackExplorer"), {
+  loading: () => <div className="min-h-[300px]" />,
+});
+const ProjectCostCalculator = dynamic(() => import("@/components/sections/ProjectCostCalculator"), {
+  loading: () => <div className="min-h-[300px]" />,
+});
+const WebsiteCostGuide = dynamic(() => import("@/components/sections/WebsiteCostGuide"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const AgencyComparisonSection = dynamic(() => import("@/components/sections/AgencyComparisonSection"), {
+  loading: () => <div className="min-h-[250px]" />,
+});
+const FreeWebsiteAudit = dynamic(() => import("@/components/sections/FreeWebsiteAudit"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const WhyChooseSection = dynamic(() => import("@/components/sections/WhyChooseSection"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const HowWeWorkSection = dynamic(() => import("@/components/sections/HowWeWorkSection"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const TeamIntroSection = dynamic(() => import("@/components/sections/TeamIntroSection"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const TestimonialsSection = dynamic(() => import("@/components/sections/TestimonialsSection"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const FAQSection = dynamic(() => import("@/components/sections/FAQSection"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
+const FinalCTASection = dynamic(() => import("@/components/sections/FinalCTASection"), {
+  loading: () => <div className="min-h-[150px]" />,
+});
+const Footer = dynamic(() => import("@/components/Footer"), {
+  loading: () => <div className="min-h-[200px]" />,
+});
 
 export default function HomePage() {
   return (
